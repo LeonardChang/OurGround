@@ -8,6 +8,7 @@ public class MessageCenter : MonoBehaviour
 
     public System.Action<string, NetworkMessageInfo> ClickButtonEvent = null;
     public System.Action<bool, Vector2> JoystickControlEvent = null;
+	public System.Action<int, NetworkPlayer> ClientConnectServerEvent = null;
 
     static MessageCenter mInstance = null;
     NetworkView mView;
@@ -16,7 +17,8 @@ public class MessageCenter : MonoBehaviour
 
     List<int> mIDs = new List<int>();
     Dictionary<string, int> mPlayerID = new Dictionary<string, int>();
-
+	Dictionary<string, int> mPlayerTeam = new Dictionary<string, int>();
+	
     public static MessageCenter Instance
     {
         get
@@ -57,7 +59,15 @@ public class MessageCenter : MonoBehaviour
             InvokeRepeating("SendHeartBeat", 0, 2);
         }
 	}
-
+	
+	public void SetPlayerTeam(NetworkPlayer _player, int _team)
+	{
+		if (!mPlayerTeam.ContainsKey(_player.guid))
+        {
+            mPlayerTeam[_player.guid] = _team;
+        }
+	}
+	
     void OnPlayerConnected(NetworkPlayer player)
     {
         Debug.Log(player.ipAddress + " connected");
@@ -65,16 +75,18 @@ public class MessageCenter : MonoBehaviour
         {
             mPlayers[player.guid] = player;
         }
-
         if (Network.isServer)
         {
             int playerID = NewTempID;
             mPlayerID[player.guid] = playerID;
-
             networkView.RPC("RefreshPlayerID", RPCMode.Others, player.guid, playerID);
+			if(ClientConnectServerEvent != null)
+			{
+				ClientConnectServerEvent(mPlayerID[player.guid], player);
+			}
         }
     }
-
+	
     void OnPlayerDisconnected(NetworkPlayer player)
     {
         Debug.Log(player.ipAddress + " disconnected");
