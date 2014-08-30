@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour {
 					GameObject o = Instantiate(Resources.Load("Prefabs/Player")) as GameObject;
 					o.transform.parent = rightPanel.transform;
 					o.transform.localScale = Vector3.one;
+					PlayerInfo pi = o.GetComponent<PlayerInfo>();
+					pi.m_icon.spriteName = "DarkSprite1";
 					SetPlayerPos(o,false);
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
 				}
@@ -76,13 +78,13 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(left)
 		{
-			int row = UnityEngine.Random.Range(6, 11);
+			int row = UnityEngine.Random.Range(0, 4);
 			int col = UnityEngine.Random.Range(0, 10);
 			o.transform.localPosition = (Vector3)mp.m_MAPLeft.m_tiles[row,col].m_pos;//(Vector3)(MapController.Instance.m_MAPLeft.m_tiles[row,col].m_pos);
 		}
 		else
 		{
-			int row = UnityEngine.Random.Range(0, 5);
+			int row = UnityEngine.Random.Range(6, 11);
 			int col = UnityEngine.Random.Range(0, 10);
 			o.transform.localPosition = (Vector3)mp.m_MAPRight.m_tiles[row,col].m_pos;//(Vector3)(MapController.Instance.m_MAPRight.m_tiles[row,col].m_pos);
 		}
@@ -615,6 +617,7 @@ public class PlayerController : MonoBehaviour {
 				
 				if(CanMoveTo(p,isLeft))
 				{
+					ChangeSprite(isLeft, keyPair.Key);
 					m_playDic[keyPair.Key].transform.localPosition = p;
 				}
 				else
@@ -624,7 +627,36 @@ public class PlayerController : MonoBehaviour {
 			}	
 		}
 	}
-	
+
+	public void ChangeSprite(bool isLeft, string id)
+	{
+		if(m_playDic.ContainsKey(id)) 
+		{
+			if(isLeft)
+			{
+				if(m_playDic[id].m_icon.spriteName == "LightSprite1")
+				{
+					m_playDic[id].m_icon.spriteName = "LightSprite2";
+				}
+				else
+				{
+					m_playDic[id].m_icon.spriteName = "LightSprite1";
+				}
+			}
+			else
+			{
+				if(m_playDic[id].m_icon.spriteName == "DarkSprite1")
+				{
+					m_playDic[id].m_icon.spriteName = "DarkSprite2";
+				}
+				else
+				{
+					m_playDic[id].m_icon.spriteName = "DarkSprite1";
+				}
+			}
+		}
+	}
+
 	public void KickGround(string id, NetworkMessageInfo msg,string str)
 	{
 
