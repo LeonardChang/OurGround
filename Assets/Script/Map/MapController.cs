@@ -165,33 +165,33 @@ public class MapController : MonoBehaviour {
 				{
 					index += 1; // line number
 					string[] result = line[n].Split(',');
-					int pos = 0;
 					for(int i = 0; i < result.Length; i++)
 					{
 						if(index == 0 || index % 3 == 0)
 						{
-							if(pos == i * 3 + 1)
+							if(i % 3 == 1)
 							{
-								map.m_tiles[index / 3, pos].dir.up = System.Int32.Parse(result[i]);
+								map.m_tiles[index / 3, i].dir.up = System.Int32.Parse(result[i]);
 							}
 						}
 						else if(index % 3 == 1)
 						{
-							if(pos == 0 || pos == i * 3 )
+							if(i == 0 || i % 3  == 0)
 							{
-								map.m_tiles[index / 3, pos].dir.left = System.Int32.Parse(result[i]);
+								map.m_tiles[index / 3, i].dir.left = System.Int32.Parse(result[i]);
 							}
-							else if(pos == i * 3 + 2)
+							else if(i % 3 == 2)
 							{
-								map.m_tiles[index / 3, pos].dir.right = System.Int32.Parse(result[i]);
+								map.m_tiles[index / 3, i].dir.right = System.Int32.Parse(result[i]);
 							}
 						}
 						else if(index % 3 == 2)
 						{
-							map.m_tiles[index / 3, pos].dir.down = System.Int32.Parse(result[i]);
+							if(i % 3 == 1)
+							{
+								map.m_tiles[index / 3, i].dir.down = System.Int32.Parse(result[i]);
+							}
 						}
-
-						pos++;
 					}
 					Debug.Log(line);
 				}
