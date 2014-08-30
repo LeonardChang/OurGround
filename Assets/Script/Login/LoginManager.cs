@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class LoginManager : MonoBehaviour {
 	
+	QRProxy mQRProxy = new QRProxy();
+	public UITexture mQRCamera;
+	public UITexture mQRCode;
 	void OnEnable()
 	{
 		MessageCenter.Instance.ClientConnectServerEvent += OnClientConnectServer;
@@ -26,6 +29,10 @@ public class LoginManager : MonoBehaviour {
 		time += Time.timeScale;
 		if(time >= 0.5f)
 		{
+			if(cameraOpened)
+			{
+				ScanQRCode();
+			}
 			time = 0;
 			UpdatePlayerSpirte();
 		}
@@ -55,6 +62,7 @@ public class LoginManager : MonoBehaviour {
         if (_result == Server.CONNECT_SUCCESS)
         {
             serverAddress.text = "IP:" + mServer.IPAddress + " Port:" + mServer.Port.ToString();
+			mQRCode.mainTexture = mQRProxy.GetQRCode(mServer.IPAddress.ToString() + ":" + mServer.Port.ToString());
         }
     }
 
@@ -62,6 +70,7 @@ public class LoginManager : MonoBehaviour {
     {
 		Debug.Log("a");
 		ShowScene(2);
+		OpenCamera();
     }
 
 	void ShowScene(int _mode)
@@ -180,12 +189,34 @@ public class LoginManager : MonoBehaviour {
 	
 	public UIInput ipInputer;
 	public UIInput portInputer;
+	bool cameraOpened;
+	void OpenCamera()
+	{
+		cameraOpened = true;
+		mQRProxy.OpenCamera(mQRCamera);
+		mQRCamera.transform.localRotation = Quaternion.AngleAxis(mQRProxy.CAMERA_ANGLE, Vector3.back);
+	}
+	
+	void ScanQRCode()
+	{
+		if(cameraOpened)
+		{
+			string tIPAddress = mQRProxy.ScanQRCode();
+			if(tIPAddress != null)
+			{
+				string[] texts = tIPAddress.Split(':');
+				ipInputer.value = texts[0];
+				portInputer.value = texts[1];
+			}
+		}
+	}
 	
 	public void ClientClickConnect()
 	{
 		string ip = ipInputer.value;
 		string port = portInputer.value;
-
+		cameraOpened = false;
+		mQRProxy.CloseCamera();
         mClient = Client.Create();
         mClient.ConnectToServer(ip, int.Parse(port), ConnectClientFinishCallback);
 	}

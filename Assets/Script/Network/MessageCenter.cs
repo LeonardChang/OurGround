@@ -130,7 +130,7 @@ public class MessageCenter : MonoBehaviour
     [RPC]
     void RefreshPlayerID(string _guid, int _playerID, NetworkMessageInfo info)
     {
-        print("RefreshPlayerID " + _guid + " " + _playerID);
+        //print("RefreshPlayerID " + _guid + " " + _playerID);
         mPlayerID[_guid] = _playerID;
         if (PlayerIDRefreshEvent != null)
         {
@@ -141,7 +141,7 @@ public class MessageCenter : MonoBehaviour
     [RPC]
     void ClickButton(string _btn, NetworkMessageInfo _info)
     {
-        print(_info.sender.guid + " ClickButton " + _btn);
+        //print(_info.sender.guid + " ClickButton " + _btn);
         if (ClickButtonEvent != null)
         {
             ClickButtonEvent(_btn, _info);
@@ -152,7 +152,7 @@ public class MessageCenter : MonoBehaviour
     void JoystickControl(bool _down, float _x, float _y, NetworkMessageInfo _info)
     {
         Vector2 dir = new Vector2(_x, _y);
-        print(_info.sender.guid + " Joystick " + _down.ToString() + " " + dir.ToString());
+        //print(_info.sender.guid + " Joystick " + _down.ToString() + " " + dir.ToString());
         if (JoystickControlEvent != null)
         {
             JoystickControlEvent(_down, dir);
