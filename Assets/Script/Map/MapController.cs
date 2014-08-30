@@ -254,6 +254,7 @@ public class MapController : MonoBehaviour {
         //}
 
 		SetMapPos(map);
+		InitFlower(map);
 	}
 
 	public void SetMapPos(Map map)
@@ -269,6 +270,42 @@ public class MapController : MonoBehaviour {
 				y = 300 - (i * 60);
 
 				map.m_tiles[i,j].m_pos = new Vector3(x,y);
+			}
+		}
+	}
+	
+	void InitFlower(Map map)
+	{
+		int tFlowersLeft = MessageCenter.Instance.mTeam1Num * 10;
+		while(tFlowersLeft > 0)
+		{
+			int tRow = UnityEngine.Random.Range(0, 5);
+			int tColumn = UnityEngine.Random.Range(0, 10);
+			Tile tTile = map.m_tiles[tRow, tColumn];
+			if(!tTile.isPlanted
+			&& !tTile.isRooted
+			&& tTile.type != GroundType.NONE
+			&& tTile.type != GroundType.BLOCK)
+			{
+				--tFlowersLeft;
+				tTile.isPlanted = true;
+				tTile.m_opponentTile.isRooted = true;
+			}
+		}
+		tFlowersLeft = MessageCenter.Instance.mTeam2Num * 10;
+		while(tFlowersLeft > 0)
+		{
+			int tRow = UnityEngine.Random.Range(6, 11);
+			int tColumn = UnityEngine.Random.Range(0, 10);
+			Tile tTile = map.m_tiles[tRow, tColumn];
+			if(!tTile.isPlanted
+			&& !tTile.isRooted
+			&& tTile.type != GroundType.NONE
+			&& tTile.type != GroundType.BLOCK)
+			{
+				--tFlowersLeft;
+				tTile.isPlanted = true;
+				tTile.m_opponentTile.isRooted = true;
 			}
 		}
 	}
