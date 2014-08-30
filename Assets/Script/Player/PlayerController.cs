@@ -7,14 +7,16 @@ public class PlayerController : MonoBehaviour {
 	public GameObject leftPanel;
 	public GameObject rightPanel;
 	public Dictionary<string, PlayerInfo> m_playDic = new Dictionary<string, PlayerInfo>();
+	public Dictionary<string, Vector2> m_playRunInfo = new Dictionary<string, Vector2>();
 	public Map m_mapLeft;
 	public Map m_mapRight;
-
+	public float ratio = 1.35f;
 	public MapController mp;
 
 	public bool startGame;
 
 	protected List<string> playID = new List<string>();
+	protected bool isPressed;
 
 	// Use this for initialization
 	void Start ()
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (startGame) 
 		{
-
+			UpdatePos();
 		}
 	}
 
@@ -507,60 +509,83 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(press)
 		{
-			bool isLeft = false;
-			if(m_playDic.ContainsKey(id))
+			isPressed = true;
+
+			if(m_playRunInfo.ContainsKey(id))
 			{
-				Vector3 p = m_playDic[id].transform.localPosition;
-				p += (Vector3)pos;
-
-				if(pos.x > 0)
-				{
-					Quaternion q = new Quaternion();
-					q.eulerAngles = new Vector3(0,0,0);
-
-					m_playDic[id].transform.localRotation = q;
-				}
-				else
-				{
-					Quaternion q = new Quaternion();
-					q.eulerAngles = new Vector3(0,180,0);
-					
-					m_playDic[id].transform.localRotation = q;
-				}
-
-				if(MessageCenter.Instance.mPlayerTeam.ContainsKey(id))
-				{
-					if(MessageCenter.Instance.mPlayerTeam[id] == 0)
-					{
-						isLeft = true;
-					}
-					else
-					{
-						isLeft = false;
-					}
-				}
-
-				if(CanMoveTo(p,isLeft))
-				{
-					m_playDic[id].transform.localPosition = p;
-				}
-				else
-				{
-					//UpdatePlayerPos(p,isLeft);
-				}
-				//m_playDic[id].transform.localPosition += pos;
+				m_playRunInfo[id] = pos * ratio;
 			}
+			else
+			{
+				m_playRunInfo.Add(id, pos * ratio);
+			}
+
+//			bool isLeft = false;
+//			if(m_playDic.ContainsKey(id))
+//			{
+//				Vector3 p = m_playDic[id].transform.localPosition;
+//				p += (Vector3)pos;
+//				
+//				if(pos.x > 0)
+//				{
+//					Quaternion q = new Quaternion();
+//					q.eulerAngles = new Vector3(0,0,0);
+//					
+//					m_playDic[id].transform.localRotation = q;
+//				}
+//				else
+//				{
+//					Quaternion q = new Quaternion();
+//					q.eulerAngles = new Vector3(0,180,0);
+//					
+//					m_playDic[id].transform.localRotation = q;
+//				}
+//				
+//				if(MessageCenter.Instance.mPlayerTeam.ContainsKey(id))
+//				{
+//					if(MessageCenter.Instance.mPlayerTeam[id] == 0)
+//					{
+//						isLeft = true;
+//					}
+//					else
+//					{
+//						isLeft = false;
+//					}
+//				}
+//
+//				if(CanMoveTo(p,isLeft))
+//				{
+//					m_playDic[id].transform.localPosition = p;
+//				}
+//				else
+//				{
+//					//UpdatePlayerPos(p,isLeft);
+//				}
+//				//m_playDic[id].transform.localPosition += pos;
+//			}
 		}
 		else
 		{
-			bool isLeft = false;
-			if(m_playDic.ContainsKey(id))
+			isPressed = false;
+			if(m_playRunInfo.ContainsKey(id))
 			{
-				Vector3 p = m_playDic[id].transform.localPosition;
-				p += (Vector3)pos;
-				if(MessageCenter.Instance.mPlayerTeam.ContainsKey(id))
+				m_playRunInfo.Remove(id);
+			}
+		}
+	}
+
+	public void UpdatePos()
+	{
+		bool isLeft = false;
+		foreach (var keyPair in m_playRunInfo)
+		{
+			if(m_playDic.ContainsKey(keyPair.Key))
+			{
+				Vector3 p = m_playDic[keyPair.Key].transform.localPosition;
+				p += (Vector3)keyPair.Value;
+				if(MessageCenter.Instance.mPlayerTeam.ContainsKey(keyPair.Key))
 				{
-					if(MessageCenter.Instance.mPlayerTeam[id] == 0)
+					if(MessageCenter.Instance.mPlayerTeam[keyPair.Key] == 0)
 					{
 						isLeft = true;
 					}
@@ -572,13 +597,13 @@ public class PlayerController : MonoBehaviour {
 				
 				if(CanMoveTo(p,isLeft))
 				{
-					m_playDic[id].transform.localPosition = p;
+					m_playDic[keyPair.Key].transform.localPosition = p;
 				}
 				else
 				{
 					//UpdatePlayerPos(p,isLeft);
 				}
-			}
+			}	
 		}
 	}
 	
