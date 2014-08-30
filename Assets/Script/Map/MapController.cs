@@ -66,9 +66,9 @@ public class MapController : MonoBehaviour {
 		GetMapData(mapB, m_MAPRight);
 
 		m_MAPLeft.SetOpponentTile(m_MAPRight, MAX_ROW, MAX_COL);
-
+		InitFlower();
 		CreateTiles();
-		pc.SendMessage("GreatePlayers");
+		pc.SendMessage("CreatePlayers");
 	}
 
 	public void CreateTiles()
@@ -120,6 +120,25 @@ public class MapController : MonoBehaviour {
 				{
 					tf.tileRightBlock.gameObject.SetActive(false);
 				}
+				
+				if(m_MAPLeft.m_tiles[i,j].isPlanted)
+				{
+					Debug.Log("Flower");
+					tf.tileFlower.gameObject.SetActive(true);
+					tf.tileFlower.spriteName = "LightFlower";
+					tf.tileFlower.MakePixelPerfect();
+				}
+				else if(m_MAPLeft.m_tiles[i,j].isRooted)
+				{
+					Debug.Log("Root");
+					tf.tileFlower.gameObject.SetActive(true);
+					tf.tileFlower.spriteName = "DarkRoot";
+					tf.tileFlower.MakePixelPerfect();
+				}
+				else
+				{
+					tf.tileFlower.gameObject.SetActive(false);
+				}
 
 				leftTiles.Add(o);
 
@@ -166,6 +185,22 @@ public class MapController : MonoBehaviour {
 				else
 				{
 					tf.tileRightBlock.gameObject.SetActive(false);
+				}
+				if(m_MAPRight.m_tiles[i,j].isPlanted)
+				{
+					tf.tileFlower.gameObject.SetActive(true);
+					tf.tileFlower.spriteName = "DarkFlower";
+					tf.tileFlower.MakePixelPerfect();
+				}
+				else if(m_MAPRight.m_tiles[i,j].isRooted)
+				{
+					tf.tileFlower.gameObject.SetActive(true);
+					tf.tileFlower.spriteName = "LightRoot";
+					tf.tileFlower.MakePixelPerfect();
+				}
+				else
+				{
+					tf.tileFlower.gameObject.SetActive(false);
 				}
 				rightTiles.Add(o);
 			}
@@ -254,7 +289,7 @@ public class MapController : MonoBehaviour {
         //}
 
 		SetMapPos(map);
-		InitFlower(map);
+		
 	}
 
 	public void SetMapPos(Map map)
@@ -274,18 +309,17 @@ public class MapController : MonoBehaviour {
 		}
 	}
 	
-	void InitFlower(Map map)
+	void InitFlower()
 	{
 		int tFlowersLeft = MessageCenter.Instance.mTeam1Num * 10;
+		if(tFlowersLeft == 0) tFlowersLeft = 10;
 		while(tFlowersLeft > 0)
 		{
 			int tRow = UnityEngine.Random.Range(0, 5);
 			int tColumn = UnityEngine.Random.Range(0, 10);
-			Tile tTile = map.m_tiles[tRow, tColumn];
+			Tile tTile = m_MAPLeft.m_tiles[tRow, tColumn];
 			if(!tTile.isPlanted
-			&& !tTile.isRooted
-			&& tTile.type != GroundType.NONE
-			&& tTile.type != GroundType.BLOCK)
+			&& !tTile.isRooted)
 			{
 				--tFlowersLeft;
 				tTile.isPlanted = true;
@@ -293,15 +327,14 @@ public class MapController : MonoBehaviour {
 			}
 		}
 		tFlowersLeft = MessageCenter.Instance.mTeam2Num * 10;
+		if(tFlowersLeft == 0) tFlowersLeft = 10;
 		while(tFlowersLeft > 0)
 		{
 			int tRow = UnityEngine.Random.Range(6, 11);
 			int tColumn = UnityEngine.Random.Range(0, 10);
-			Tile tTile = map.m_tiles[tRow, tColumn];
+			Tile tTile = m_MAPRight.m_tiles[tRow, tColumn];
 			if(!tTile.isPlanted
-			&& !tTile.isRooted
-			&& tTile.type != GroundType.NONE
-			&& tTile.type != GroundType.BLOCK)
+			&& !tTile.isRooted)
 			{
 				--tFlowersLeft;
 				tTile.isPlanted = true;

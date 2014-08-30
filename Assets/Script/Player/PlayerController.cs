@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
 		
 	}
 
-	public void GreatePlayers()
+	public void CreatePlayers()
 	{
 		playID.Clear();
 		foreach (var kp in MessageCenter.Instance.mPlayers)
