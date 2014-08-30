@@ -26,7 +26,7 @@ public class LoginManager : MonoBehaviour {
 	float time = 0;
 	
 	void Update () {
-		time += Time.timeScale;
+		time += Time.deltaTime;
 		if(time >= 0.5f)
 		{
 			if(cameraOpened)
@@ -45,6 +45,8 @@ public class LoginManager : MonoBehaviour {
 	public GameObject serverScene;
 	
 	public UILabel serverAddress;
+
+    public GameObject BGMNode;
 	
     Server mServer;
     Client mClient;
@@ -70,7 +72,10 @@ public class LoginManager : MonoBehaviour {
     {
 		Debug.Log("a");
 		ShowScene(2);
+		#if !UNITY_STANDALONE
 		OpenCamera();
+		#endif
+        Destroy(BGMNode);
     }
 
 	void ShowScene(int _mode)
@@ -104,8 +109,8 @@ public class LoginManager : MonoBehaviour {
 	public List<UISprite> team2 = new List<UISprite>();
 	public List<UILabel> team2Text = new List<UILabel>();
 	
-	int playersNum1 = 0;
-	int playersNum2 = 0;
+	public int playersNum1 = 0;
+	public int playersNum2 = 0;
 	
 	void UpdatePlayerSpirte()
 	{
@@ -181,6 +186,11 @@ public class LoginManager : MonoBehaviour {
 	
 	public void ServerClickGameStart()
 	{
+        if (MessageCenter.Instance.mPlayerTeam.Keys.Count < 2)
+        {
+            return;
+        }
+		MessageCenter.Instance.SetTeamNum(playersNum1, playersNum2);
 		Application.LoadLevel("MainScene");
 	}
 	
@@ -207,6 +217,7 @@ public class LoginManager : MonoBehaviour {
 				string[] texts = tIPAddress.Split(':');
 				ipInputer.value = texts[0];
 				portInputer.value = texts[1];
+				ClientClickConnect();
 			}
 		}
 	}
@@ -215,10 +226,24 @@ public class LoginManager : MonoBehaviour {
 	{
 		string ip = ipInputer.value;
 		string port = portInputer.value;
+
+        if (ip.Split('.').Length != 4)
+        {
+            return;
+        }
+
+        int portID = 0;
+        if (!int.TryParse(port, out portID))
+        {
+            return;
+        }
+
 		cameraOpened = false;
+#if !UNITY_STANDALONE
 		mQRProxy.CloseCamera();
+#endif
         mClient = Client.Create();
-        mClient.ConnectToServer(ip, int.Parse(port), ConnectClientFinishCallback);
+        mClient.ConnectToServer(ip, portID, ConnectClientFinishCallback);
 	}
 	
 	void ConnectClientFinishCallback(string _result)
