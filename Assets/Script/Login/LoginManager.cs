@@ -45,6 +45,8 @@ public class LoginManager : MonoBehaviour {
 	public GameObject serverScene;
 	
 	public UILabel serverAddress;
+
+    public GameObject BGMNode;
 	
     Server mServer;
     Client mClient;
@@ -73,6 +75,7 @@ public class LoginManager : MonoBehaviour {
 		#if !UNITY_STANDALONE
 		OpenCamera();
 		#endif
+        Destroy(BGMNode);
     }
 
 	void ShowScene(int _mode)
