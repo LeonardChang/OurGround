@@ -979,9 +979,22 @@ static public class NGUITools
 		return comp;
  #endif
 #else
-		return go.GetComponentInParent<T>();
+		return NGUITools.GetTopParent(go).GetComponentInChildren<T>();
 #endif
 	}
+
+    static public GameObject GetTopParent(GameObject _obj)
+    {
+        Transform trans = _obj.transform;
+        Transform parent = trans.parent;
+        while (parent != null)
+        {
+            trans = parent;
+            parent = trans.parent;
+        }
+
+        return trans.gameObject;
+    }
 
 	/// <summary>
 	/// Finds the specified component on the game object or one of its parents.

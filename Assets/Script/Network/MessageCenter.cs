@@ -71,7 +71,7 @@ public class MessageCenter : MonoBehaviour
             int playerID = NewTempID;
             mPlayerID[player.guid] = playerID;
 
-            networkView.RPC("RefreshPlayerID", RPCMode.All, player.guid, playerID);
+            networkView.RPC("RefreshPlayerID", RPCMode.Others, player.guid, playerID);
         }
     }
 
@@ -115,6 +115,7 @@ public class MessageCenter : MonoBehaviour
     [RPC]
     void RefreshPlayerID(string _guid, int _playerID, NetworkMessageInfo info)
     {
+        print("RefreshPlayerID " + _guid + " " + _playerID);
         mPlayerID[_guid] = _playerID;
         if (PlayerIDRefreshEvent != null)
         {
@@ -175,7 +176,7 @@ public class MessageCenter : MonoBehaviour
 
     #region message
 
-    public void SendJoysticlControl(bool _down, Vector2 _dir)
+    public void SendJoystickControl(bool _down, Vector2 _dir)
     {
         print("[SendJoysticlControl] " + _down.ToString() + " " + _dir.ToString());
         networkView.RPC("JoystickControl", RPCMode.Server, _down, _dir.x, _dir.y);

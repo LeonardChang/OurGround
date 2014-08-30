@@ -25,11 +25,11 @@ public class Controler : MonoBehaviour {
             Vector2 oldpos = mTouchPosition;
             Vector2 newpos = Input.mousePosition;
 
-            if (Vector2.Distance(oldpos, newpos) >= 1)
+            if (Vector2.Distance(oldpos, newpos) >= 10)
             {
                 Vector2 dir = newpos - oldpos;
                 dir = dir.normalized;
-                MessageCenter.Instance.SendJoysticlControl(true, dir);
+                SendJoystick(true, dir);
             }
 
             mTouchPosition = newpos;
@@ -70,11 +70,25 @@ public class Controler : MonoBehaviour {
 
         if (!mIsPressed)
         {
-            MessageCenter.Instance.SendJoysticlControl(false, Vector2.zero);
+            MessageCenter.Instance.SendJoystickControl(false, Vector2.zero);
+            mLastDir = new Vector2(-999, -999);
         }
         else
         {
-            MessageCenter.Instance.SendJoysticlControl(true, Vector2.zero);
+            MessageCenter.Instance.SendJoystickControl(true, Vector2.zero);
         }
+    }
+
+    Vector2 mLastDir = new Vector2(-999, -999);
+
+    void SendJoystick(bool _down, Vector2 _dir)
+    {
+        if (_dir == mLastDir)
+        {
+            return;
+        }
+
+        MessageCenter.Instance.SendJoystickControl(_down, _dir);
+        mLastDir = _dir;
     }
 }

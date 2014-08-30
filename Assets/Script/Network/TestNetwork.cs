@@ -46,6 +46,7 @@ public class TestNetwork : MonoBehaviour {
         if (_result == Client.CONNECT_SUCCESS)
         {
             Label.text = "OK";
+            Application.LoadLevel("Controller");
         }
     }
 }

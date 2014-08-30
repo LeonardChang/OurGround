@@ -91,7 +91,7 @@ public class UICamera : MonoBehaviour
 		{
 			get
 			{
-				return current != null && current.GetComponentInParent<UIRoot>() != null;
+                return current != null && NGUITools.GetTopParent(current).GetComponentInChildren<UIRoot>() != null;
 			}
 		}
 	}
@@ -439,7 +439,7 @@ public class UICamera : MonoBehaviour
 		{
 			if (currentTouch != null) return currentTouch.isOverUI;
 			if (hoveredObject == null) return false;
-			return hoveredObject.GetComponentInParent<UIRoot>() != null;
+            return NGUITools.GetTopParent(hoveredObject).GetComponentInChildren<UIRoot>() != null;
 		}
 	}
 
@@ -658,7 +658,7 @@ public class UICamera : MonoBehaviour
 					lastWorldPosition = lastHit.point;
 					hoveredObject = lastHit.collider.gameObject;
 
-					Rigidbody rb = hoveredObject.GetComponentInParent<Rigidbody>();
+                    Rigidbody rb = NGUITools.GetTopParent(hoveredObject).GetComponentInChildren<Rigidbody>();
 					if (rb != null) hoveredObject = rb.gameObject;
 					return true;
 				}
@@ -754,7 +754,7 @@ public class UICamera : MonoBehaviour
 						lastWorldPosition = point;
 						hoveredObject = c2d.gameObject;
 
-						Rigidbody2D rb = hoveredObject.GetComponentInParent<Rigidbody2D>();
+                        Rigidbody2D rb = NGUITools.GetTopParent(hoveredObject).GetComponentInChildren<Rigidbody2D>();
 						if (rb != null) hoveredObject = rb.gameObject;
 						return true;
 					}
