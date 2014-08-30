@@ -186,10 +186,10 @@ public class LoginManager : MonoBehaviour {
 	
 	public void ServerClickGameStart()
 	{
-        if (MessageCenter.Instance.mPlayerTeam.Keys.Count < 2)
-        {
-            return;
-        }
+        //if (MessageCenter.Instance.mPlayerTeam.Keys.Count < 2)
+        //{
+        //    return;
+        //}
 		MessageCenter.Instance.SetTeamNum(playersNum1, playersNum2);
 		Application.LoadLevel("MainScene");
 	}

@@ -8,7 +8,7 @@ public class Server : MonoBehaviour
     public static string CONNECT_SUCCESS = "CONNECT_SUCCESS";
     public static string ERROR_ALREADY_ONLINE = "The player is already online";
 
-    public int MaxConnection = 32;
+    public int MaxConnection = 8;
     public int ListenPort = 25000;
     public string Password = "111111";
 
