@@ -13,11 +13,11 @@ public class MessageCenter : MonoBehaviour
     static MessageCenter mInstance = null;
     NetworkView mView;
 
-    Dictionary<string, NetworkPlayer> mPlayers = new Dictionary<string, NetworkPlayer>();
+    public Dictionary<string, NetworkPlayer> mPlayers = new Dictionary<string, NetworkPlayer>();
 
     List<int> mIDs = new List<int>();
-    Dictionary<string, int> mPlayerID = new Dictionary<string, int>();
-	Dictionary<string, int> mPlayerTeam = new Dictionary<string, int>();
+    public Dictionary<string, int> mPlayerID = new Dictionary<string, int>();
+	public Dictionary<string, int> mPlayerTeam = new Dictionary<string, int>();
 	
     public static MessageCenter Instance
     {
