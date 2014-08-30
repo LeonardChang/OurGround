@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class MessageCenter : MonoBehaviour
 {
     public System.Action<string, int> PlayerIDRefreshEvent = null;
+
     public System.Action<string, NetworkMessageInfo> ClickButtonEvent = null;
     public System.Action<bool, Vector2> JoystickControlEvent = null;
 
@@ -124,6 +125,7 @@ public class MessageCenter : MonoBehaviour
     [RPC]
     void ClickButton(string _btn, NetworkMessageInfo _info)
     {
+        print(_info.sender.guid + " ClickButton " + _btn);
         if (ClickButtonEvent != null)
         {
             ClickButtonEvent(_btn, _info);
@@ -131,18 +133,20 @@ public class MessageCenter : MonoBehaviour
     }
 
     [RPC]
-    void JoystickControl(bool _down, Vector2 _dir, NetworkMessageInfo _info)
+    void JoystickControl(bool _down, float _x, float _y, NetworkMessageInfo _info)
     {
+        Vector2 dir = new Vector2(_x, _y);
+        print(_info.sender.guid + " Joystick " + _down.ToString() + " " + dir.ToString());
         if (JoystickControlEvent != null)
         {
-            JoystickControlEvent(_down, _dir);
+            JoystickControlEvent(_down, dir);
         }
     }
 
     [RPC]
     void HeartBeat(NetworkMessageInfo _info)
     {
-        print(GetPlayerName(_info.sender.guid) + "heart beat once.");
+        //print(GetPlayerName(_info.sender.guid) + "heart beat once.");
     }
 
     #endregion
@@ -152,15 +156,34 @@ public class MessageCenter : MonoBehaviour
         return mPlayerID.ContainsKey(_guid) ? (mPlayerID[_guid].ToString() + "P") : _guid;
     }
 
+    public bool IsMe(string _guid)
+    {
+        if (!mPlayers.ContainsKey(_guid))
+        {
+            return false;
+        }
+        return mPlayers[_guid] == Network.player;
+    }
+
+    public string MyGUID
+    {
+        get
+        {
+            return Network.player.guid;
+        }
+    }
+
     #region message
 
     public void SendJoysticlControl(bool _down, Vector2 _dir)
     {
-        networkView.RPC("JoystickControl", RPCMode.Server, _down, _dir);
+        print("[SendJoysticlControl] " + _down.ToString() + " " + _dir.ToString());
+        networkView.RPC("JoystickControl", RPCMode.Server, _down, _dir.x, _dir.y);
     }
 
     public void SendClickButton(string _btn)
     {
+        print("[SendClickButton] " + _btn);
         networkView.RPC("ClickButton", RPCMode.Server, _btn);
     }
 
