@@ -71,7 +71,7 @@ public class MessageCenter : MonoBehaviour
             int playerID = NewTempID;
             mPlayerID[player.guid] = playerID;
 
-            networkView.RPC("RefreshPlayerID", RPCMode.Others, player.guid, playerID);
+            networkView.RPC("RefreshPlayerID", RPCMode.All, player.guid, playerID);
         }
     }
 

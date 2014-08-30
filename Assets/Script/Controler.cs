@@ -7,7 +7,7 @@ public class Controler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        MessageCenter.Instance.PlayerIDRefreshEvent += RefreshPlayerNameCallback;
+        MessageCenter.Instance.PlayerIDRefreshEvent = RefreshPlayerNameCallback;
         UIEventListener.Get(TouchPad).onPress = OnTouchPadPress;
 
         RefreshPlayerName();
@@ -15,7 +15,7 @@ public class Controler : MonoBehaviour {
 
     void OnDestroy()
     {
-        MessageCenter.Instance.PlayerIDRefreshEvent -= RefreshPlayerNameCallback;
+        MessageCenter.Instance.PlayerIDRefreshEvent = null;
     }
 	
 	// Update is called once per frame
@@ -64,7 +64,7 @@ public class Controler : MonoBehaviour {
 
     void OnTouchPadPress (GameObject _sender, bool isPressed)
     {
-        print("OnTouchPadPress");
+        //print("OnTouchPadPress");
         mIsPressed = isPressed;
         mTouchPosition = Input.mousePosition;
 
