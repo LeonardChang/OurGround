@@ -26,7 +26,7 @@ public class LoginManager : MonoBehaviour {
 	float time = 0;
 	
 	void Update () {
-		time += Time.timeScale;
+		time += Time.deltaTime;
 		if(time >= 0.5f)
 		{
 			if(cameraOpened)
@@ -70,7 +70,9 @@ public class LoginManager : MonoBehaviour {
     {
 		Debug.Log("a");
 		ShowScene(2);
+		#if !UNITY_STANDALONE
 		OpenCamera();
+		#endif
     }
 
 	void ShowScene(int _mode)
@@ -216,7 +218,9 @@ public class LoginManager : MonoBehaviour {
 		string ip = ipInputer.value;
 		string port = portInputer.value;
 		cameraOpened = false;
+		#if !UNITY_STANDALONE
 		mQRProxy.CloseCamera();
+		#endif
         mClient = Client.Create();
         mClient.ConnectToServer(ip, int.Parse(port), ConnectClientFinishCallback);
 	}
