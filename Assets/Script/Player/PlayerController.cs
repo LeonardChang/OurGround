@@ -520,6 +520,24 @@ public class PlayerController : MonoBehaviour {
 				m_playRunInfo.Add(id, pos * ratio);
 			}
 
+			if(m_playDic.ContainsKey(id))
+			{	
+				if(pos.x > 0)
+				{
+					Quaternion q = new Quaternion();
+					q.eulerAngles = new Vector3(0,0,0);
+					
+					m_playDic[id].transform.localRotation = q;
+				}
+			}
+			else
+			{
+				Quaternion q = new Quaternion();
+				q.eulerAngles = new Vector3(0,180,0);
+				
+				m_playDic[id].transform.localRotation = q;
+			}
+
 //			bool isLeft = false;
 //			if(m_playDic.ContainsKey(id))
 //			{
