@@ -68,7 +68,7 @@ public class MapController : MonoBehaviour {
 		m_MAPLeft.SetOpponentTile(m_MAPRight, MAX_ROW, MAX_COL);
 
 		CreateTiles();
-		pc.SendMessage("GreatePlayers");
+		pc.SendMessage("CreatePlayers");
 	}
 
 	public void CreateTiles()
