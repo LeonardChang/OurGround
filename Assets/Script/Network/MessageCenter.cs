@@ -80,8 +80,10 @@ public class MessageCenter : MonoBehaviour
             int playerID = NewTempID;
             mPlayerID[player.guid] = playerID;
             networkView.RPC("RefreshPlayerID", RPCMode.All, player.guid, playerID);
+			Debug.Log("A");
 			if(ClientConnectServerEvent != null)
 			{
+				Debug.Log("b");
 				ClientConnectServerEvent(mPlayerID[player.guid], player);
 			}
         }
