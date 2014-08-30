@@ -62,10 +62,11 @@ public class MapController : MonoBehaviour {
 				o.transform.parent = m_objLeft.transform;
 				o.transform.localScale = Vector3.one;
 				o.transform.localPosition = (Vector3)m_MAPLeft.m_tiles[i,j].m_pos;
+				o.name = "Tile(" + i.ToString() + ", " + j.ToString() + ")";
 
 				TileInfo tf = o.GetComponent<TileInfo>();
 				tf.tileBG.spriteName = "LightGround";
-				if(m_MAPLeft.m_tiles[i,j].dir.up == 1)
+				if(m_MAPLeft.m_tiles[i,j].dir.up == 0)
 				{
 					tf.tileUpBlock.gameObject.SetActive(true);
 				}
@@ -74,7 +75,7 @@ public class MapController : MonoBehaviour {
 					tf.tileUpBlock.gameObject.SetActive(false);
 				}
 
-				if(m_MAPLeft.m_tiles[i,j].dir.left == 1)
+				if(m_MAPLeft.m_tiles[i,j].dir.left == 0)
 				{
 					tf.tileLeftBlock.gameObject.SetActive(true);
 				}
@@ -83,7 +84,7 @@ public class MapController : MonoBehaviour {
 					tf.tileLeftBlock.gameObject.SetActive(false);
 				}
 
-				if(m_MAPLeft.m_tiles[i,j].dir.down == 1)
+				if(m_MAPLeft.m_tiles[i,j].dir.down == 0)
 				{
 					tf.tileDownBlock.gameObject.SetActive(true);
 				}
@@ -92,7 +93,7 @@ public class MapController : MonoBehaviour {
 					tf.tileDownBlock.gameObject.SetActive(false);
 				}
 
-				if(m_MAPLeft.m_tiles[i,j].dir.right == 1 )
+				if(m_MAPLeft.m_tiles[i,j].dir.right == 0 )
 				{
 					tf.tileRightBlock.gameObject.SetActive(true);
 				}
@@ -106,12 +107,13 @@ public class MapController : MonoBehaviour {
 				GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/Tile")) as GameObject;
 				obj.transform.parent = m_objRight.transform;
 				obj.transform.localScale = Vector3.one;
+				obj.name = "Tile(" + i.ToString() + ", " + j.ToString() + ")";
 				obj.transform.localPosition = (Vector3)m_MAPLeft.m_tiles[i,j].m_pos;
 
 				tf = obj.GetComponent<TileInfo>();
 				tf.tileBG.spriteName = "DarkGround";
 
-				if(m_MAPRight.m_tiles[i,j].dir.up == 1)
+				if(m_MAPRight.m_tiles[i,j].dir.up == 0)
 				{
 					tf.tileUpBlock.gameObject.SetActive(true);
 				}
@@ -120,7 +122,7 @@ public class MapController : MonoBehaviour {
 					tf.tileUpBlock.gameObject.SetActive(false);
 				}
 				
-				if(m_MAPRight.m_tiles[i,j].dir.left == 1)
+				if(m_MAPRight.m_tiles[i,j].dir.left == 0)
 				{
 					tf.tileLeftBlock.gameObject.SetActive(true);
 				}
@@ -129,7 +131,7 @@ public class MapController : MonoBehaviour {
 					tf.tileLeftBlock.gameObject.SetActive(false);
 				}
 				
-				if(m_MAPRight.m_tiles[i,j].dir.down == 1)
+				if(m_MAPRight.m_tiles[i,j].dir.down == 0)
 				{
 					tf.tileDownBlock.gameObject.SetActive(true);
 				}
@@ -138,7 +140,7 @@ public class MapController : MonoBehaviour {
 					tf.tileDownBlock.gameObject.SetActive(false);
 				}
 				
-				if(m_MAPRight.m_tiles[i,j].dir.right == 1 )
+				if(m_MAPRight.m_tiles[i,j].dir.right == 0 )
 				{
 					tf.tileRightBlock.gameObject.SetActive(true);
 				}
@@ -244,8 +246,8 @@ public class MapController : MonoBehaviour {
 				int x = 0;
 				int y = 0;
 
-				x = -270 + (i * 60);
-				y = 300 - (j * 60);
+				x = -270 + (j * 60);
+				y = 300 - (i * 60);
 
 				map.m_tiles[i,j].m_pos = new Vector3(x,y);
 			}
