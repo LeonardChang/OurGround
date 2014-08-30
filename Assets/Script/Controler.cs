@@ -51,11 +51,13 @@ public class Controler : MonoBehaviour {
 
     public void ClickButtonA()
     {
+        //Handheld.Vibrate();
         MessageCenter.Instance.SendClickButton("A");
     }
 
     public void ClickButtonB()
     {
+        //Handheld.Vibrate();
         MessageCenter.Instance.SendClickButton("B");
     }
 
@@ -75,6 +77,7 @@ public class Controler : MonoBehaviour {
         }
         else
         {
+            //Handheld.Vibrate();
             MessageCenter.Instance.SendJoystickControl(true, Vector2.zero);
         }
     }
