@@ -21,8 +21,8 @@ public class AutoScaleCenter : MonoBehaviour
 		}
 	}
 	
-    public int DefaultWidth = 640;
-	public int DefaultHeight = 960;
+    public int DefaultWidth = 1136;
+	public int DefaultHeight = 768;
 	
     ScreenOrientation mScreenOrientation;
     int mWidth;
@@ -83,8 +83,8 @@ public class AutoScaleCenter : MonoBehaviour
         else
         {
             mInstance = this;
-            SCREEN_LOGIC_HEIDHT = 960;
-            SCREEN_LOGIC_WIDTH = 640;
+            SCREEN_LOGIC_HEIDHT = 768;
+            SCREEN_LOGIC_WIDTH = 1136;
         }
     }
 
