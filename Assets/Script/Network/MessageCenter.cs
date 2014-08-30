@@ -20,6 +20,9 @@ public class MessageCenter : MonoBehaviour
     public Dictionary<string, int> mPlayerID = new Dictionary<string, int>();
 	public Dictionary<string, int> mPlayerTeam = new Dictionary<string, int>();
 	
+	public int mTeam1Num = 0;
+	public int mTeam2Num = 0;
+	
     public static MessageCenter Instance
     {
         get
@@ -109,6 +112,12 @@ public class MessageCenter : MonoBehaviour
             mPlayerID.Remove(player.guid);
         }
     }
+	
+	public void SetTeamNum(int _Team1Num, int _Team2Num)
+	{
+		mTeam1Num = _Team1Num;
+		mTeam2Num = _Team2Num;
+	}
 
     int NewTempID
     {

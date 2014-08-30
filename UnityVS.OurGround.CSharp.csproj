@@ -185,6 +185,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\Script\Controler.cs" />
+    <Compile Include="Assets\Script\Login\BGM.cs" />
     <Compile Include="Assets\Script\Login\LoginManager.cs" />
     <Compile Include="Assets\Script\Login\QRProxy.cs" />
     <Compile Include="Assets\Script\Map\Map.cs" />

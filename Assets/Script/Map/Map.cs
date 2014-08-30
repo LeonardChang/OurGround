@@ -30,7 +30,7 @@ public enum GroundType
 	NONE,
 	GROUND,
 	UNDERGROUND,
-	BOLCK,
+	BLOCK,
 }
 
 public class TileIndex
@@ -55,8 +55,8 @@ public class Tile
 	public int m_height;
 
 	public bool isPlanted;
+	public bool isRooted;
 	public bool isPulling;
-	public bool isUnderGround;
 
 	public GroundType type; 
 
@@ -66,7 +66,7 @@ public class Tile
 		m_pos = Vector3.zero;
 		isPlanted = false;
 		isPulling = false;
-		isUnderGround = false;
+		isRooted = false;
 		type = GroundType.NONE;
 		m_opponentTile = null;
 		dir = new Direct();

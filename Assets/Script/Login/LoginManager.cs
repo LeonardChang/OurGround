@@ -109,8 +109,8 @@ public class LoginManager : MonoBehaviour {
 	public List<UISprite> team2 = new List<UISprite>();
 	public List<UILabel> team2Text = new List<UILabel>();
 	
-	int playersNum1 = 0;
-	int playersNum2 = 0;
+	public int playersNum1 = 0;
+	public int playersNum2 = 0;
 	
 	void UpdatePlayerSpirte()
 	{
@@ -190,7 +190,7 @@ public class LoginManager : MonoBehaviour {
         {
             return;
         }
-
+		MessageCenter.Instance.SetTeamNum(playersNum1, playersNum2);
 		Application.LoadLevel("MainScene");
 	}
 	
