@@ -180,6 +180,7 @@ public class LoginManager : MonoBehaviour {
 		else
 		{
 			++playersNum2;
+            MessageCenter.Instance.SetPlayerTeam(_player, _team);
 			team2[playersNum2 - 1].gameObject.SetActive(true);
 			team2Text[playersNum2 - 1].text = "Player " + _playerID.ToString();
 		}
