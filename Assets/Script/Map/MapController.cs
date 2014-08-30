@@ -16,6 +16,8 @@ public class MapController : MonoBehaviour {
 	public TextAsset mapA;
 	public TextAsset mapB;
 
+	public PlayerController pc;
+
 	public Map m_MAPLeft;
 	public Map m_MAPRight;
 
@@ -24,6 +26,8 @@ public class MapController : MonoBehaviour {
 
 	public List<GameObject> leftTiles = new List<GameObject>();
 	public List<GameObject> rightTiles = new List<GameObject>();
+
+	static MapController mInstance = null;
 
 	// Use this for initialization
 	void Start () 
@@ -38,6 +42,20 @@ public class MapController : MonoBehaviour {
 		
 	}
 
+	public static MapController Instance
+	{
+		get
+		{
+			if (mInstance == null)
+			{
+				GameObject obj = GameObject.FindObjectOfType(typeof(MapController)) as GameObject;
+				if(obj != null)
+					mInstance = obj.GetComponent<MapController>();
+			}
+			return mInstance;
+		}
+	}
+
 	public void InitTile()
 	{
 		//string path1 = "Resources/Data/SceneA.txt";
@@ -50,6 +68,7 @@ public class MapController : MonoBehaviour {
 		m_MAPLeft.SetOpponentTile(m_MAPRight, MAX_ROW, MAX_COL);
 
 		CreateTiles();
+		pc.SendMessage("GreatePlayers");
 	}
 
 	public void CreateTiles()
