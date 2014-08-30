@@ -34,7 +34,101 @@ public class Controler : MonoBehaviour {
 
             mTouchPosition = newpos;
         }
+
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            ClickButtonA();
+        }
+
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            ClickButtonB();
+        }
+
+        bool isAnyPress = false;
+        if (mPressUp || mPressDown || mPressLeft || mPressRight)
+        {
+            isAnyPress = true;
+        }
+
+        if (!mPressUp && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            mPressUp = true;
+        }
+        if (mPressUp && Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            mPressUp = false;
+        }
+
+        if (!mPressDown && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            mPressDown = true;
+        }
+        if (mPressDown && Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            mPressDown = false;
+        }
+
+        if (!mPressLeft && Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            mPressLeft = true;
+        }
+        if (mPressLeft && Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            mPressLeft = false;
+        }
+
+        if (!mPressRight && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            mPressRight = true;
+        }
+        if (mPressRight && Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            mPressRight = false;
+        }
+
+        if (mPressUp && mPressLeft)
+        {
+            SendJoystick(false, (new Vector2(-1, 1)).normalized);
+        }
+        else if (mPressUp && mPressRight)
+        {
+            SendJoystick(false, (new Vector2(1, 1)).normalized);
+        }
+        else if (mPressUp)
+        {
+            SendJoystick(false, (new Vector2(0, 1)).normalized);
+        }
+        else if (mPressDown && mPressLeft)
+        {
+            SendJoystick(false, (new Vector2(-1, -1)).normalized);
+        }
+        else if (mPressDown && mPressRight)
+        {
+            SendJoystick(false, (new Vector2(1, -1)).normalized);
+        }
+        else if (mPressDown)
+        {
+            SendJoystick(false, (new Vector2(0, -1)).normalized);
+        }
+        else if (mPressLeft)
+        {
+            SendJoystick(false, (new Vector2(-1, 0)).normalized);
+        }
+        else if (mPressRight)
+        {
+            SendJoystick(false, (new Vector2(1, 0)).normalized);
+        }
+        else if (isAnyPress)
+        {
+            MessageCenter.Instance.SendJoystickControl(false, Vector2.zero);
+        }
 	}
+
+    bool mPressUp = false;
+    bool mPressDown = false;
+    bool mPressLeft = false;
+    bool mPressRight = false;
 
     void RefreshPlayerNameCallback(string _guid, int _playerID)
     {
