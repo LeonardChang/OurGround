@@ -209,6 +209,7 @@ public class LoginManager : MonoBehaviour {
 				string[] texts = tIPAddress.Split(':');
 				ipInputer.value = texts[0];
 				portInputer.value = texts[1];
+				ClientClickConnect();
 			}
 		}
 	}
