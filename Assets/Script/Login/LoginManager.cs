@@ -183,6 +183,10 @@ public class LoginManager : MonoBehaviour {
 	
 	public void ServerClickGameStart()
 	{
+        if (MessageCenter.Instance.mPlayerTeam.Keys.Count < 2)
+        {
+            return;
+        }
 		MessageCenter.Instance.SetTeamNum(playersNum1, playersNum2);
 		Application.LoadLevel("MainScene");
 	}
@@ -219,12 +223,24 @@ public class LoginManager : MonoBehaviour {
 	{
 		string ip = ipInputer.value;
 		string port = portInputer.value;
+
+        if (ip.Split('.').Length != 4)
+        {
+            return;
+        }
+
+        int portID = 0;
+        if (!int.TryParse(port, out portID))
+        {
+            return;
+        }
+
 		cameraOpened = false;
-		#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE
 		mQRProxy.CloseCamera();
-		#endif
+#endif
         mClient = Client.Create();
-        mClient.ConnectToServer(ip, int.Parse(port), ConnectClientFinishCallback);
+        mClient.ConnectToServer(ip, portID, ConnectClientFinishCallback);
 	}
 	
 	void ConnectClientFinishCallback(string _result)
