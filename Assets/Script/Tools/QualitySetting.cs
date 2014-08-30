@@ -31,7 +31,6 @@ public class QualitySetting
 //                return true;
 //            }
 //        }
-		return false;
 #elif UNITY_IPHONE
         if (iPhone.generation == iPhoneGeneration.iPhone
             || iPhone.generation == iPhoneGeneration.iPhone3G
