@@ -6,8 +6,9 @@ public class MessageCenter : MonoBehaviour
 {
     public System.Action<string, int> PlayerIDRefreshEvent = null;
 
-    public System.Action<string, NetworkMessageInfo> ClickButtonEvent = null;
-    public System.Action<bool, Vector2> JoystickControlEvent = null;
+    public System.Action<string, NetworkMessageInfo, string> ClickButtonEvent = null;
+    public System.Action<bool, Vector2, string> JoystickControlEvent = null;
+
 	public System.Action<int, NetworkPlayer> ClientConnectServerEvent = null;
 
     static MessageCenter mInstance = null;
@@ -144,7 +145,7 @@ public class MessageCenter : MonoBehaviour
         //print(_info.sender.guid + " ClickButton " + _btn);
         if (ClickButtonEvent != null)
         {
-            ClickButtonEvent(_btn, _info);
+            ClickButtonEvent(_btn, _info, _info.sender.guid);
         }
     }
 
@@ -155,7 +156,7 @@ public class MessageCenter : MonoBehaviour
         //print(_info.sender.guid + " Joystick " + _down.ToString() + " " + dir.ToString());
         if (JoystickControlEvent != null)
         {
-            JoystickControlEvent(_down, dir);
+            JoystickControlEvent(_down, dir, _info.sender.guid);
         }
     }
 
