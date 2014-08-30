@@ -21,6 +21,7 @@ public class LoginManager : MonoBehaviour {
 		ShowScene(0);
 		
         MessageCenter mc = MessageCenter.Instance;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	float time = 0;
@@ -190,6 +191,7 @@ public class LoginManager : MonoBehaviour {
         //{
         //    return;
         //}
+
 		MessageCenter.Instance.SetTeamNum(playersNum1, playersNum2);
 		Application.LoadLevel("MainScene");
 	}
