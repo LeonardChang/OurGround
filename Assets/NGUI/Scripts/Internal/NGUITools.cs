@@ -1025,7 +1025,7 @@ static public class NGUITools
 		return comp;
  #endif
 #else
-		return trans.GetComponentInParent<T>();
+        return NGUITools.GetTopParent(trans.gameObject).GetComponentInChildren<T>();
 #endif
 	}
 

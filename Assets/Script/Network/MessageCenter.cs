@@ -178,13 +178,13 @@ public class MessageCenter : MonoBehaviour
 
     public void SendJoystickControl(bool _down, Vector2 _dir)
     {
-        print("[SendJoysticlControl] " + _down.ToString() + " " + _dir.ToString());
+        //print("[SendJoysticlControl] " + _down.ToString() + " " + _dir.ToString());
         networkView.RPC("JoystickControl", RPCMode.Server, _down, _dir.x, _dir.y);
     }
 
     public void SendClickButton(string _btn)
     {
-        print("[SendClickButton] " + _btn);
+        //print("[SendClickButton] " + _btn);
         networkView.RPC("ClickButton", RPCMode.Server, _btn);
     }
 
