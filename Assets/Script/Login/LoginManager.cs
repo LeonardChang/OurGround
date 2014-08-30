@@ -16,6 +16,7 @@ public class LoginManager : MonoBehaviour {
 	 */
 	void Start () {
 		ShowScene(0);
+		
         MessageCenter mc = MessageCenter.Instance;
 	}
 	
@@ -46,6 +47,7 @@ public class LoginManager : MonoBehaviour {
         mServer = Server.Create();
         mServer.CreateServer(ConnectServerFinishCallback);
 		ShowScene(1);
+		RefreshMenu();
     }
 
     void ConnectServerFinishCallback(string _result)
@@ -118,6 +120,7 @@ public class LoginManager : MonoBehaviour {
 				team2[i].spriteName = "DarkSprite1";
 			}
 		}
+		
 	}
 	
 	void RefreshMenu()
@@ -147,6 +150,7 @@ public class LoginManager : MonoBehaviour {
 		{
 			SetTeam(_playerID, 1, _player);
 		}
+		RefreshMenu();
 	}
 	
 	void SetTeam(int _playerID, int _team, NetworkPlayer _player)
