@@ -9,6 +9,9 @@ public class PlayerInfo : MonoBehaviour {
     public UILabel m_Label;
 	public bool isLeft = false;
 
+	public bool isPulling = false;
+	public float pullingTime = 0f;
+
 	// Use this for initialization
 	void Start () {
 	}
