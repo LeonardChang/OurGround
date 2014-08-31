@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject leftPanel;
 	public GameObject rightPanel;
+	public UILabel leftScore;
+	public UILabel rightScore;
 	public Dictionary<string, PlayerInfo> m_playDic = new Dictionary<string, PlayerInfo>();
 	public Dictionary<string, Vector2> m_playRunInfo = new Dictionary<string, Vector2>();
 
@@ -966,6 +968,8 @@ public class PlayerController : MonoBehaviour {
 
 	public void CheckScore()
 	{
+		leftScore.text = mp.m_MAPLeft.m_score.ToString();
+		rightScore.text = mp.m_MAPRight.m_score.ToString();
 		if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
 		{
 			Application.LoadLevel("LightWin");		
