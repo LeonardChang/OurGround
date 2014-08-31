@@ -52,6 +52,7 @@ public class Tile
 	public int m_height;
 
 	public bool isPlanted;
+	public bool canAward;
 	public bool isRooted;
 	public bool isPulling;
 
@@ -66,6 +67,7 @@ public class Tile
 		dir = new Direct();
 		m_width = 60;
 		m_height = 60;
+		canAward = false;
 	}
 }
 
