@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour {
 					o.transform.parent = leftPanel.transform;
 					o.transform.localScale = Vector3.one;
 					SetPlayerPos(o,true);
+					o.GetComponent<PlayerInfo>().isLeft = true;
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
 				}
 				else if(MessageCenter.Instance.mPlayerTeam[playID[i]] == 1)
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour {
 					o.transform.localScale = Vector3.one;
 					PlayerInfo pi = o.GetComponent<PlayerInfo>();
 					pi.m_icon.spriteName = "DarkSprite1";
+					pi.isLeft = false;
 					SetPlayerPos(o,false);
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
 				}
@@ -652,6 +654,7 @@ public class PlayerController : MonoBehaviour {
 		if (btn == "A")
 		{
 			//pull root, plant
+
 		}
 		else if(btn == "B")
 		{
@@ -710,6 +713,72 @@ public class PlayerController : MonoBehaviour {
 							{
 								play.Value.m_icon.spriteName = "DarkSprite_skill";
 							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void Plant(string id)
+	{
+		bool isLeft = false;
+		//kick ground
+		if(m_playDic.ContainsKey(id))
+		{
+			Vector3 pos = m_playDic[id].transform.localPosition;
+			if(MessageCenter.Instance.mPlayerTeam.ContainsKey(id))
+			{
+				if(MessageCenter.Instance.mPlayerTeam[id] == 0)
+				{
+					isLeft = true;
+				}
+				else
+				{
+					isLeft = false;
+				}
+			}
+			TileIndex index = new TileIndex();
+			index = GetTileIndex(pos, isLeft);
+			if(index.m_x != -1)
+			{
+				Vector3 p;
+				int width;
+				int height;
+				if(isLeft)
+				{
+					if(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isPlanted != true &&
+					   mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted != true)
+					{
+						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isPlanted = true;
+						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = true;
+					}
+				}
+				else
+				{
+					p = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_pos;
+					width = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_width;
+					height = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_height;
+				}
+				
+				foreach(var play in m_playDic)
+				{
+					float left = p.x - width/2;
+					float right = p.x + width/2;
+					float up = p.y + height/2;
+					float down = p.y - height/2;
+					Vector3 tempPos = play.Value.transform.localPosition;
+					if(tempPos.x >= left && tempPos.x <= right && tempPos.y <= up && tempPos.y >= down)
+					{
+						play.Value.isKnocked = true;
+						play.Value.knockTime = 0.5f;
+						if(isLeft)
+						{
+							play.Value.m_icon.spriteName = "LightSprite_skill";
+						}
+						else
+						{
+							play.Value.m_icon.spriteName = "DarkSprite_skill";
 						}
 					}
 				}
