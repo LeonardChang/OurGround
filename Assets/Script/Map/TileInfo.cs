@@ -11,6 +11,8 @@ public class TileInfo : MonoBehaviour {
 	public UISprite tileLeftBlock;
 	public UISprite knockSprite;
 
+	public bool isKnocked = false;
+	public float cdTime = 0;
 	public bool isGrowing = false;
 	public bool hasFlower = false;
 	public bool hasSeed = false;
@@ -34,17 +36,31 @@ public class TileInfo : MonoBehaviour {
 					growTime = 0;
 					hasFlower = true;
 					hasSeed = false;
+					isGrowing = false;
 					if(isLeft)
 					{
 						tileFlower.spriteName = "LightFlower";
 						tileFlower.MakePixelPerfect();
+						++MapController.Instance.m_MAPLeft.m_score;
 					}
 					else
 					{
 						tileFlower.spriteName = "DarkFlower";
 						tileFlower.MakePixelPerfect();
+						++MapController.Instance.m_MAPRight.m_score;
 					}
 				}
+			}
+		}
+
+		if(isKnocked)
+		{
+			cdTime -= Time.deltaTime;
+			if(cdTime <= 0)
+			{
+				cdTime = 0;
+				isKnocked = false;
+				knockSprite.gameObject.SetActive(false);
 			}
 		}
 	}

@@ -757,16 +757,96 @@ public class PlayerController : MonoBehaviour {
 						Vector3 tempPos = play.Value.transform.localPosition;
 						if(isLeft)
 						{
-							TileInfo tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+							int a = index.m_x;
+							int b = index.m_y;
+
+
+							TileInfo tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
 							tf.knockSprite.gameObject.SetActive(true);
+							tf.isKnocked = true;
+							tf.cdTime = 1;
+
+							if((a-1) >= 0)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a-1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							if((b-1) >= 0)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a, b-1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							if((a+1) <= 10)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a+1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							if((b+1) <= 9)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a, b+1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
 							m_playDic[id].m_icon.spriteName = "LightSprite_skill";
 							m_playDic[id].canKnockOther = false;
 							m_playDic[id].cdTime = 1;
 						}
 						else
 						{
+							int a = index.m_x;
+							int b = index.m_y;
+
 							TileInfo tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
 							tf.knockSprite.gameObject.SetActive(true);
+							tf.isKnocked = true;
+							tf.cdTime = 1;
+
+							if((a-1) >= 0)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a-1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							if((b-1) >= 0)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a, b-1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							if((a+1) <= 10)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a+1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							if((b+1) <= 9)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a, b+1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							m_playDic[id].m_icon.spriteName = "LightSprite_skill";
+							m_playDic[id].canKnockOther = false;
+							m_playDic[id].cdTime = 1;
 							m_playDic[id].m_icon.spriteName = "DarkSprite_skill";
 							m_playDic[id].canKnockOther = false;
 							m_playDic[id].cdTime = 1;
@@ -875,18 +955,18 @@ public class PlayerController : MonoBehaviour {
 					TileIndex index = GetTileIndex(play.Value.transform.localPosition, play.Value.isLeft);
 					if(play.Value.isLeft)
 					{
-						Debug.Log(index.m_x);
-						Debug.Log(index.m_y);
-						Debug.Log(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index.m_x);
-						Debug.Log(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index.m_y);
 						play.Value.m_icon.spriteName = "LightSprite1_catchSeed";
 						play.Value.hasSeed = true;
 						mp.leftTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
-						//mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].SetActive(false);
-						//mp.rightTiles[mp.m_MAPLeft.m_tiles[6, 6].m_opponentTile.m_index].SetActive(false);
+						if(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
+						{
+							--mp.m_MAPRight.m_score;
+							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
+						}
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
+						
 					}
 					else
 					{
@@ -894,6 +974,11 @@ public class PlayerController : MonoBehaviour {
 						play.Value.hasSeed = true;
 						mp.rightTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						if(mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
+						{
+							--mp.m_MAPLeft.m_score;
+							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
+						}
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
 					}
