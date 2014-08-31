@@ -685,7 +685,14 @@ public class PlayerController : MonoBehaviour {
 
 	public void GetButtonInfo(string btn, NetworkMessageInfo msg,string id)
 	{
-		if(m_playDic[keyPair.Key].isKnocked || m_playDic[keyPair.Key].isPulling) return;
+		if(m_playDic.ContainsKey(id))
+		{
+			if(m_playDic[id].isKnocked || m_playDic[id].isPulling) return;
+		}
+		else
+		{
+			return;
+		}
 		if (btn == "A")
 		{
 			//pull root, plant
@@ -753,10 +760,12 @@ public class PlayerController : MonoBehaviour {
 							if(isLeft)
 							{
 								play.Value.m_icon.spriteName = "LightSprite_skill";
+								play.Value.m_icon.MakePixelPerfect();
 							}
 							else
 							{
 								play.Value.m_icon.spriteName = "DarkSprite_skill";
+								play.Value.m_icon.MakePixelPerfect();
 							}
 						}
 					}
@@ -923,7 +932,7 @@ public class PlayerController : MonoBehaviour {
 							tf.isGrowing = true;
 							tf.growTime = 10;
 							tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
-							tf.tileFlower.spriteName = "DarkRoot";
+							tf.tileFlower.spriteName = "LightRoot";
 							tf.tileFlower.gameObject.SetActive(true);
 							tf.tileFlower.MakePixelPerfect();
 						}
@@ -945,7 +954,7 @@ public class PlayerController : MonoBehaviour {
 							tf.isGrowing = true;
 							tf.growTime = 10;
 							tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
-							tf.tileFlower.spriteName = "LightRoot";
+							tf.tileFlower.spriteName = "DarkRoot";
 							tf.tileFlower.MakePixelPerfect();
 							tf.tileFlower.gameObject.SetActive(true);
 						}

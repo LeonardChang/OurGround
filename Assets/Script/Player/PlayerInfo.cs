@@ -26,10 +26,16 @@ public class PlayerInfo : MonoBehaviour {
 			{
 				knockTime = 0;
 				isKnocked = false;
-//				if(isLeft)
-//					m_icon.spriteName = "LightSprite1";
-//				else
-//					m_icon.spriteName = "DarkSprite1";
+				if(isLeft)
+				{
+					m_icon.spriteName = "LightSprite1";
+					m_icon.MakePixelPerfect();
+				}
+				else
+				{
+					m_icon.spriteName = "DarkSprite1";
+					m_icon.MakePixelPerfect();
+				}
 			}
 		}
 	}
