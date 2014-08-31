@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
 		if (startGame) 
 		{
 			UpdatePos();
-
+			Pulling();
 		}
 	}
 
@@ -787,6 +787,45 @@ public class PlayerController : MonoBehaviour {
 				} */
 			}
 		}
+	}
+	
+	public void Pulling()
+	{
+		foreach(var play in m_playDic)
+		{
+			if(play.Value.isPulling)
+			{
+				play.Value.pullingTime -= Time.deltaTime;
+				if(play.Value.pullingTime <= 0)
+				{
+					play.Value.pullingTime = 0;
+					play.Value.isPulling = false;
+					TileIndex index = GetTileIndex(play.Value.transform.localPosition, play.Value.isLeft);
+					if(play.Value.isLeft)
+					{
+						play.Value.m_icon.spriteName = "LightSprite1";
+						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].
+						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
+						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
+					}
+					else
+					{
+						play.Value.m_icon.spriteName = "DarkSprite1";
+						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = false;
+						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
+					}
+				}
+				else
+				{
+					play.Value.pullingTime = 0;
+				}
+			}
+		}
+	}
+	
+	public void PulledSuccess()
+	{
+		;
 	}
 
 	public void Plant(string id)

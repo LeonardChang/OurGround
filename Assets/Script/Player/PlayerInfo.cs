@@ -37,6 +37,10 @@ public class PlayerInfo : MonoBehaviour {
 			{
 				pullingTime = 0;
 				isPulling = false;
+				if(isLeft)
+					m_icon.spriteName = "LightSprite1";
+				else
+					m_icon.spriteName = "DarkSprite1";
 			}
 		}
 		else
