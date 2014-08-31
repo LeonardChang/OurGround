@@ -1088,15 +1088,17 @@ public class PlayerController : MonoBehaviour {
 		}
 		index.m_x = -1;
 		index.m_y = -1;
+		Debug.Log(mp.m_MAPLeft.m_score);
+		Debug.Log(mp.m_MAPRight.m_score);
 		leftScore.text = mp.m_MAPLeft.m_score.ToString();
 		rightScore.text = mp.m_MAPRight.m_score.ToString();
-		if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
+		/* if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
 		{
 			Application.LoadLevel("LightWin");		
 		}
 		else if(mp.m_MAPRight.m_score >= MessageCenter.Instance.mTeam2Num * 10 + MessageCenter.Instance.mTeam1Num * 3)
 		{
 			Application.LoadLevel("DarkWin");
-		}
+		} */
 	}
 }
