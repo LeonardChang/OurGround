@@ -38,13 +38,17 @@ public class TileInfo : MonoBehaviour {
 					{
 						tileFlower.spriteName = "LightFlower";
 						tileFlower.MakePixelPerfect();
-						++MapController.Instance.m_MAPLeft.m_score;
+						//MapController.Instance.m_MAPLeft.m_score++;
+						//TileIndex ti = MapController.Instance.pc.GetTileIndex(transform.localPosition, isLeft);
+						//MapController.Instance.m_MAPLeft.m_tiles[ti.m_x, ti.m_y].canAward = true;
 					}
 					else
 					{
 						tileFlower.spriteName = "DarkFlower";
 						tileFlower.MakePixelPerfect();
-						++MapController.Instance.m_MAPRight.m_score;
+						//MapController.Instance.m_MAPRight.m_score++;
+						//TileIndex ti = MapController.Instance.pc.GetTileIndex(transform.localPosition, isLeft);
+						//MapController.Instance.m_MAPRight.m_tiles[ti.m_x, ti.m_y].canAward = true;
 					}
 				}
 			}

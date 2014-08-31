@@ -865,7 +865,7 @@ public class PlayerController : MonoBehaviour {
 						mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						if(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
 						{
-							--mp.m_MAPRight.m_score;
+							//--mp.m_MAPRight.m_score;
 							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
 						}
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
@@ -880,7 +880,7 @@ public class PlayerController : MonoBehaviour {
 						mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						if(mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
 						{
-							--mp.m_MAPLeft.m_score;
+							//--mp.m_MAPLeft.m_score;
 							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
 						}
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = false;
@@ -973,6 +973,25 @@ public class PlayerController : MonoBehaviour {
 
 	public void CheckScore()
 	{
+		TileIndex index = new TileIndex();
+		mp.m_MAPLeft.m_score = 0;
+		mp.m_MAPRight.m_score = 0;
+		for(int i = 0; i < mp.MAX_ROW; i++)
+		{
+			for(int j = 0; j < mp.MAX_COL; j++)
+			{
+				if(mp.leftTiles[mp.m_MAPLeft.m_tiles[i,j].m_index].GetComponent<TileInfo>().tileFlower.spriteName == "LightFlower")
+				{
+					mp.m_MAPLeft.m_score++;
+				}
+				if(mp.rightTiles[mp.m_MAPRight.m_tiles[i,j].m_index].GetComponent<TileInfo>().tileFlower.spriteName == "DarkFlower")
+				{
+					mp.m_MAPRight.m_score++;
+				}
+			}
+		}
+		index.m_x = -1;
+		index.m_y = -1;
 		leftScore.text = mp.m_MAPLeft.m_score.ToString();
 		rightScore.text = mp.m_MAPRight.m_score.ToString();
 		if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
