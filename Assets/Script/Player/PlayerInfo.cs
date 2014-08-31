@@ -7,6 +7,7 @@ public class PlayerInfo : MonoBehaviour {
 	public bool isKnocked = false;
 	public float knockTime = 0f;
     public UILabel m_Label;
+	public bool isLeft = false;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,10 @@ public class PlayerInfo : MonoBehaviour {
 			{
 				knockTime = 0;
 				isKnocked = false;
+				if(isLeft)
+					m_icon.spriteName = "LightSprite1";
+				else
+					m_icon.spriteName = "DarkSprite1";
 			}
 		}
 	}
