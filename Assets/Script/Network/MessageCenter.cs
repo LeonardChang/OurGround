@@ -29,8 +29,13 @@ public class MessageCenter : MonoBehaviour
         {
             if (mInstance == null)
             {
-                GameObject obj = new GameObject("_MessageCenter");
-                mInstance = obj.AddComponent<MessageCenter>();
+                mInstance = Object.FindObjectOfType(typeof(MessageCenter)) as MessageCenter;
+
+                if (mInstance == null)
+                {
+                    GameObject obj = new GameObject("_MessageCenter");
+                    mInstance = obj.AddComponent<MessageCenter>();
+                }
             }
             return mInstance;
         }
@@ -41,7 +46,6 @@ public class MessageCenter : MonoBehaviour
         if (mInstance == null)
         {
             mInstance = this;
-
             DontDestroyOnLoad(gameObject);
             mView = gameObject.AddComponent<NetworkView>();
         }
@@ -51,12 +55,14 @@ public class MessageCenter : MonoBehaviour
         }
     }
 
-    void OnDestroy()
-    {
-        if (mInstance == this)
-        {
-            mInstance = null;
-        }
+    void OnDestroy() 
+    { 
+        if (mInstance == this) mInstance = null;
+    }
+
+    void OnEnable() 
+    { 
+        if (mInstance == null) mInstance = this;
     }
 
 	// Use this for initialization

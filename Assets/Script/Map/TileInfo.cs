@@ -34,9 +34,15 @@ public class TileInfo : MonoBehaviour {
 					hasFlower = true;
 					hasSeed = false;
 					if(isLeft)
+					{
 						tileFlower.spriteName = "LightFlower";
+						tileFlower.MakePixelPerfect();
+					}
 					else
+					{
 						tileFlower.spriteName = "DarkFlower";
+						tileFlower.MakePixelPerfect();
+					}
 				}
 			}
 		}
