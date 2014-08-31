@@ -1100,5 +1100,13 @@ public class PlayerController : MonoBehaviour {
 		{
 			Application.LoadLevel("DarkWin");
 		} */
+//		if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
+//		{
+//			Application.LoadLevel("LightWin");		
+//		}
+//		else if(mp.m_MAPRight.m_score >= MessageCenter.Instance.mTeam2Num * 10 + MessageCenter.Instance.mTeam1Num * 3)
+//		{
+//			Application.LoadLevel("DarkWin");
+//		}
 	}
 }
