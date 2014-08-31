@@ -755,20 +755,116 @@ public class PlayerController : MonoBehaviour {
 						float up = p.y + (height + height/2);
 						float down = p.y - (height + height/2);
 						Vector3 tempPos = play.Value.transform.localPosition;
+						if(isLeft)
+						{
+							int a = index.m_x;
+							int b = index.m_y;
+
+
+							TileInfo tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+							tf.knockSprite.gameObject.SetActive(true);
+							tf.isKnocked = true;
+							tf.cdTime = 1;
+
+							if((a-1) >= 0)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a-1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							if((b-1) >= 0)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a, b-1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							if((a+1) <= 10)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a+1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							if((b+1) <= 9)
+							{
+								tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[a, b+1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+
+							m_playDic[id].m_icon.spriteName = "LightSprite_skill";
+							m_playDic[id].canKnockOther = false;
+							m_playDic[id].cdTime = 1;
+						}
+						else
+						{
+							int a = index.m_x;
+							int b = index.m_y;
+
+							TileInfo tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+							tf.knockSprite.gameObject.SetActive(true);
+							tf.isKnocked = true;
+							tf.cdTime = 1;
+
+							if((a-1) >= 0)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a-1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							if((b-1) >= 0)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a, b-1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							if((a+1) <= 10)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a+1, b].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							if((b+1) <= 9)
+							{
+								tf = mp.leftTiles[mp.m_MAPRight.m_tiles[a, b+1].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+								tf.knockSprite.gameObject.SetActive(true);
+								tf.isKnocked = true;
+								tf.cdTime = 1;
+							}
+							
+							m_playDic[id].m_icon.spriteName = "LightSprite_skill";
+							m_playDic[id].canKnockOther = false;
+							m_playDic[id].cdTime = 1;
+							m_playDic[id].m_icon.spriteName = "DarkSprite_skill";
+							m_playDic[id].canKnockOther = false;
+							m_playDic[id].cdTime = 1;
+						}
 						if(tempPos.x >= left && tempPos.x <= right && tempPos.y <= up && tempPos.y >= down)
 						{
 							play.Value.isKnocked = true;
 							play.Value.knockTime = 0.5f;
-							if(isLeft)
-							{
-								play.Value.m_icon.spriteName = "LightSprite_skill";
-								play.Value.m_icon.MakePixelPerfect();
-							}
-							else
-							{
-								play.Value.m_icon.spriteName = "DarkSprite_skill";
-								play.Value.m_icon.MakePixelPerfect();
-							}
+//							if(isLeft)
+//							{
+//								//play.Value.m_icon.spriteName = "LightSprite_skill";
+//								//play.Value.m_icon.MakePixelPerfect();
+//							}
+//							else
+//							{
+//								//play.Value.m_icon.spriteName = "DarkSprite_skill";
+//								//play.Value.m_icon.MakePixelPerfect();
+//							}
 						}
 					}
 				}

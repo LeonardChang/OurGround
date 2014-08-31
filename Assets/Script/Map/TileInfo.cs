@@ -9,7 +9,10 @@ public class TileInfo : MonoBehaviour {
 	public UISprite tileRightBlock;
 	public UISprite tileDownBlock;
 	public UISprite tileLeftBlock;
+	public UISprite knockSprite;
 
+	public bool isKnocked = false;
+	public float cdTime = 0;
 	public bool isGrowing = false;
 	public bool hasFlower = false;
 	public bool hasSeed = false;
@@ -51,6 +54,17 @@ public class TileInfo : MonoBehaviour {
 						//MapController.Instance.m_MAPRight.m_tiles[ti.m_x, ti.m_y].canAward = true;
 					}
 				}
+			}
+		}
+
+		if(isKnocked)
+		{
+			cdTime -= Time.deltaTime;
+			if(cdTime <= 0)
+			{
+				cdTime = 0;
+				isKnocked = false;
+				knockSprite.gameObject.SetActive(false);
 			}
 		}
 	}
