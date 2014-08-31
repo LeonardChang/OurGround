@@ -24,8 +24,8 @@ public class MapController : MonoBehaviour {
 	protected float m_ScreenWidth;
 	protected float m_ScreenHeight;
 
-	public List<GameObject> leftTiles = new List<GameObject>();
-	public List<GameObject> rightTiles = new List<GameObject>();
+	public Dictionary<TileIndex,GameObject> leftTiles = new Dictionary<TileIndex,GameObject>();
+	public Dictionary<TileIndex,GameObject> rightTiles = new Dictionary<TileIndex,GameObject>();
 
 	static MapController mInstance = null;
 
@@ -139,8 +139,8 @@ public class MapController : MonoBehaviour {
 				{
 					tf.tileFlower.gameObject.SetActive(false);
 				}
-
-				leftTiles.Add(o);
+				TileIndex numIndex = new TileIndex(i,j);
+				leftTiles.Add(numIndex,o);
 
 				GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/Tile")) as GameObject;
 				obj.transform.parent = m_objRight.transform;
@@ -202,7 +202,9 @@ public class MapController : MonoBehaviour {
 				{
 					tf.tileFlower.gameObject.SetActive(false);
 				}
-				rightTiles.Add(o);
+
+				TileIndex numIndex2 = new TileIndex(i,j);
+				rightTiles.Add(numIndex2,o);
 			}
 		}
 	}
@@ -324,6 +326,7 @@ public class MapController : MonoBehaviour {
 				--tFlowersLeft;
 				tTile.isPlanted = true;
 				tTile.m_opponentTile.isRooted = true;
+				tTile.canAward = true;
 			}
 		}
 		tFlowersLeft = MessageCenter.Instance.mTeam2Num * 10;
@@ -339,6 +342,7 @@ public class MapController : MonoBehaviour {
 				--tFlowersLeft;
 				tTile.isPlanted = true;
 				tTile.m_opponentTile.isRooted = true;
+				tTile.canAward = true;
 			}
 		}
 	}

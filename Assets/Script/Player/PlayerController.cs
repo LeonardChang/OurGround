@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour {
 					SetPlayerPos(o,true);
 					o.GetComponent<PlayerInfo>().isLeft = true;
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
+                    o.GetComponent<PlayerInfo>().m_Label.text = MessageCenter.Instance.GetPlayerName(playID[i]);
 				}
 				else if(MessageCenter.Instance.mPlayerTeam[playID[i]] == 1)
 				{
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour {
 					pi.isLeft = false;
 					SetPlayerPos(o,false);
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
+                    o.GetComponent<PlayerInfo>().m_Label.text = MessageCenter.Instance.GetPlayerName(playID[i]);
 				}
 			}
 		}
@@ -346,7 +348,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row-1, col].dir.down != 1)
 					{
 						destPos.y = oy;
-						Debug.Log("1");
 					}
 				}
 			}
@@ -357,7 +358,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row + 1, col].dir.up != 1)
 					{
 						destPos.y = oy;
-						Debug.Log("2");
 					}
 				}
 			}
@@ -368,8 +368,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row, col + 1].dir.left != 1)
 					{
 						destPos.x = ox;
-						Debug.Log(oy);
-						Debug.Log(destPos.y);
 					}
 				}
 			}
@@ -380,7 +378,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row, col - 1].dir.right != 1)
 					{
 						destPos.x = ox;
-						Debug.Log("4");
 					}
 				}
 			}
@@ -516,15 +513,15 @@ public class PlayerController : MonoBehaviour {
 				{
 					Quaternion q = new Quaternion();
 					q.eulerAngles = new Vector3(0,0,0);
-					
-					m_playDic[id].transform.localRotation = q;
+
+                    m_playDic[id].transform.FindChild("Icon").localRotation = q;
 				}
 				else
 				{
 					Quaternion q = new Quaternion();
 					q.eulerAngles = new Vector3(0,180,0);
-					
-					m_playDic[id].transform.localRotation = q;
+
+                    m_playDic[id].transform.FindChild("Icon").localRotation = q;
 				}
 			}
 
@@ -758,7 +755,7 @@ public class PlayerController : MonoBehaviour {
 					m_playDic[id].pullingTime = 4;
 					if(isLeft)
 					{
-						m_playDic[id].m_icon.spriteName = "DarkSprite_draw";
+						m_playDic[id].m_icon.spriteName = "LightSprite_draw";
 					}
 					else
 					{
@@ -803,29 +800,29 @@ public class PlayerController : MonoBehaviour {
 					TileIndex index = GetTileIndex(play.Value.transform.localPosition, play.Value.isLeft);
 					if(play.Value.isLeft)
 					{
+						Debug.Log(index.m_x);
+						Debug.Log(index.m_y);
 						play.Value.m_icon.spriteName = "LightSprite1";
-						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].
+						mp.leftTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.leftTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
 					}
 					else
 					{
 						play.Value.m_icon.spriteName = "DarkSprite1";
+						mp.rightTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.rightTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
 					}
 				}
-				else
-				{
-					play.Value.pullingTime = 0;
-				}
+			}
+			else
+			{
+				play.Value.pullingTime = 0;
 			}
 		}
-	}
-	
-	public void PulledSuccess()
-	{
-		;
 	}
 
 	public void Plant(string id)
