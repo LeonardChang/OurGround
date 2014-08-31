@@ -38,12 +38,12 @@ public class Controler : MonoBehaviour {
 
             float distance = Vector2.Distance(newpos, mStartPosition);
 
-            if (Mathf.Abs(newpos.x - mStartPosition.x) < 80)
+            if (Mathf.Abs(newpos.x - mStartPosition.x) < 50)
             {
                 newpos.x = mStartPosition.x;
             }
 
-            if (Mathf.Abs(newpos.y - mStartPosition.y) < 80)
+            if (Mathf.Abs(newpos.y - mStartPosition.y) < 50)
             {
                 newpos.y = mStartPosition.y;
             }
