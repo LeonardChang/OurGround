@@ -5,6 +5,10 @@ public class Controler : MonoBehaviour {
     public UILabel PlayerNameLabel;
     public GameObject TouchPad;
 
+    public GameObject Quan;
+    public GameObject Cross;
+    public Camera MainCamera;
+
 	// Use this for initialization
 	void Start () {
         MessageCenter.Instance.PlayerIDRefreshEvent = RefreshPlayerNameCallback;
@@ -22,17 +26,13 @@ public class Controler : MonoBehaviour {
 	void Update () {
         if (mIsPressed)
         {
-            Vector2 oldpos = mTouchPosition;
-            Vector2 newpos = Input.mousePosition;
+            Vector2 newpos = Input.GetTouch(mTouchID).position;
 
-            if (Vector2.Distance(oldpos, newpos) >= 10)
-            {
-                Vector2 dir = newpos - oldpos;
-                dir = dir.normalized;
-                SendJoystick(true, dir);
-            }
+            Quan.transform.localPosition = GetCurrentTouchPosition(newpos);
 
-            mTouchPosition = newpos;
+            Vector2 dir = newpos - mStartPosition;
+            dir = dir.normalized;
+            SendJoystick(true, dir);
         }
 
         if (Input.GetKeyUp(KeyCode.Z))
@@ -89,35 +89,35 @@ public class Controler : MonoBehaviour {
 
         if (mPressUp && mPressLeft)
         {
-            SendJoystick(false, (new Vector2(-1, 1)).normalized);
+            SendJoystick(true, (new Vector2(-1, 1)).normalized);
         }
         else if (mPressUp && mPressRight)
         {
-            SendJoystick(false, (new Vector2(1, 1)).normalized);
+            SendJoystick(true, (new Vector2(1, 1)).normalized);
         }
         else if (mPressUp)
         {
-            SendJoystick(false, (new Vector2(0, 1)).normalized);
+            SendJoystick(true, (new Vector2(0, 1)).normalized);
         }
         else if (mPressDown && mPressLeft)
         {
-            SendJoystick(false, (new Vector2(-1, -1)).normalized);
+            SendJoystick(true, (new Vector2(-1, -1)).normalized);
         }
         else if (mPressDown && mPressRight)
         {
-            SendJoystick(false, (new Vector2(1, -1)).normalized);
+            SendJoystick(true, (new Vector2(1, -1)).normalized);
         }
         else if (mPressDown)
         {
-            SendJoystick(false, (new Vector2(0, -1)).normalized);
+            SendJoystick(true, (new Vector2(0, -1)).normalized);
         }
         else if (mPressLeft)
         {
-            SendJoystick(false, (new Vector2(-1, 0)).normalized);
+            SendJoystick(true, (new Vector2(-1, 0)).normalized);
         }
         else if (mPressRight)
         {
-            SendJoystick(false, (new Vector2(1, 0)).normalized);
+            SendJoystick(true, (new Vector2(1, 0)).normalized);
         }
         else if (isAnyPress)
         {
@@ -156,24 +156,58 @@ public class Controler : MonoBehaviour {
     }
 
     bool mIsPressed = false;
-    Vector2 mTouchPosition;
+    Vector2 mStartPosition;
+
+    int mTouchID;
 
     void OnTouchPadPress (GameObject _sender, bool isPressed)
     {
         //print("OnTouchPadPress");
         mIsPressed = isPressed;
-        mTouchPosition = Input.mousePosition;
 
         if (!mIsPressed)
         {
             MessageCenter.Instance.SendJoystickControl(false, Vector2.zero);
             mLastDir = new Vector2(-999, -999);
+
+            Quan.SetActive(false);
+            Cross.SetActive(false);
         }
         else
         {
+            RaycastHit hit = new RaycastHit();
+            foreach (var touch in Input.touches)
+            {
+                Ray ray = MainCamera.ScreenPointToRay(touch.position);
+                if (TouchPad.collider.Raycast(ray, out hit, float.MaxValue))
+                {
+                    mTouchID = touch.fingerId;
+                    break;
+                }
+            }
+
             //Handheld.Vibrate();
+            mStartPosition = Input.GetTouch(mTouchID).position;
             MessageCenter.Instance.SendJoystickControl(true, Vector2.zero);
+
+            Quan.SetActive(true);
+            Cross.SetActive(true);
+
+            Quan.transform.localPosition = GetCurrentTouchPosition(mStartPosition);
+            Cross.transform.localPosition = GetCurrentTouchPosition(mStartPosition);
         }
+    }
+
+    Vector3 GetCurrentTouchPosition(Vector3 _mouse)
+    {
+        Ray ray = MainCamera.ScreenPointToRay(_mouse);
+        RaycastHit hit = new RaycastHit();
+        if (TouchPad.collider.Raycast(ray, out hit, float.MaxValue))
+        {
+            return TouchPad.transform.InverseTransformPoint(hit.point);
+        }
+
+        return Vector3.zero;
     }
 
     Vector2 mLastDir = new Vector2(-999, -999);
@@ -185,7 +219,7 @@ public class Controler : MonoBehaviour {
             return;
         }
 
-        MessageCenter.Instance.SendJoystickControl(_down, _dir);
+        MessageCenter.Instance.SendJoystickControl(_down, _dir * 2f);
         mLastDir = _dir;
     }
 }

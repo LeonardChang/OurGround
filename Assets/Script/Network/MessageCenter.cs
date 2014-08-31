@@ -51,6 +51,14 @@ public class MessageCenter : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (mInstance == this)
+        {
+            mInstance = null;
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
 	
@@ -203,12 +211,20 @@ public class MessageCenter : MonoBehaviour
 
     public void SendJoystickControl(bool _down, Vector2 _dir)
     {
+        if (!Network.isClient)
+        {
+            return;
+        }
         //print("[SendJoysticlControl] " + _down.ToString() + " " + _dir.ToString());
         networkView.RPC("JoystickControl", RPCMode.Server, _down, _dir.x, _dir.y);
     }
 
     public void SendClickButton(string _btn)
     {
+        if (!Network.isClient)
+        {
+            return;
+        }
         //print("[SendClickButton] " + _btn);
         networkView.RPC("ClickButton", RPCMode.Server, _btn);
     }
