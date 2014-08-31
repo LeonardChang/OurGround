@@ -461,9 +461,9 @@ public class PlayerController : MonoBehaviour {
 					float up = oy + height/2;
 					float down = oy - height/2;
 
-					if(pos.x > left && pos.x < right)
+					if(pos.x >= left && pos.x <= right)
 					{
-						if(pos.y > down && pos.y < up)
+						if(pos.y >= down && pos.y <= up)
 						{
 							return mp.m_MAPLeft.m_tiles[i,j].m_index;
 						}
@@ -480,9 +480,9 @@ public class PlayerController : MonoBehaviour {
 					float up = oy + height/2;
 					float down = oy - height/2;
 					
-					if(pos.x > left && pos.x < right)
+					if(pos.x >= left && pos.x <= right)
 					{
-						if(pos.y > down && pos.y < up)
+						if(pos.y >= down && pos.y <= up)
 						{
 							return mp.m_MAPRight.m_tiles[i,j].m_index;
 						}
@@ -755,20 +755,36 @@ public class PlayerController : MonoBehaviour {
 						float up = p.y + (height + height/2);
 						float down = p.y - (height + height/2);
 						Vector3 tempPos = play.Value.transform.localPosition;
+						if(isLeft)
+						{
+							TileInfo tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+							tf.knockSprite.gameObject.SetActive(true);
+							m_playDic[id].m_icon.spriteName = "LightSprite_skill";
+							m_playDic[id].canKnockOther = false;
+							m_playDic[id].cdTime = 1;
+						}
+						else
+						{
+							TileInfo tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].transform.GetComponent<TileInfo>();
+							tf.knockSprite.gameObject.SetActive(true);
+							m_playDic[id].m_icon.spriteName = "DarkSprite_skill";
+							m_playDic[id].canKnockOther = false;
+							m_playDic[id].cdTime = 1;
+						}
 						if(tempPos.x >= left && tempPos.x <= right && tempPos.y <= up && tempPos.y >= down)
 						{
 							play.Value.isKnocked = true;
 							play.Value.knockTime = 0.5f;
-							if(isLeft)
-							{
-								play.Value.m_icon.spriteName = "LightSprite_skill";
-								play.Value.m_icon.MakePixelPerfect();
-							}
-							else
-							{
-								play.Value.m_icon.spriteName = "DarkSprite_skill";
-								play.Value.m_icon.MakePixelPerfect();
-							}
+//							if(isLeft)
+//							{
+//								//play.Value.m_icon.spriteName = "LightSprite_skill";
+//								//play.Value.m_icon.MakePixelPerfect();
+//							}
+//							else
+//							{
+//								//play.Value.m_icon.spriteName = "DarkSprite_skill";
+//								//play.Value.m_icon.MakePixelPerfect();
+//							}
 						}
 					}
 				}

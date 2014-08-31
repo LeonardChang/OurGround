@@ -9,6 +9,7 @@ public class TileInfo : MonoBehaviour {
 	public UISprite tileRightBlock;
 	public UISprite tileDownBlock;
 	public UISprite tileLeftBlock;
+	public UISprite knockSprite;
 
 	public bool isGrowing = false;
 	public bool hasFlower = false;
