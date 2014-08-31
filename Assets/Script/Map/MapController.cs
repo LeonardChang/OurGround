@@ -203,7 +203,6 @@ public class MapController : MonoBehaviour {
 				{
 					tf.tileFlower.gameObject.SetActive(false);
 				}
-
 				rightTiles.Add(m_MAPRight.m_tiles[i,j].m_index,o);
 			}
 		}
