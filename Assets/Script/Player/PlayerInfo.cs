@@ -11,6 +11,7 @@ public class PlayerInfo : MonoBehaviour {
 
 	public bool isPulling = false;
 	public float pullingTime = 0f;
+	public bool hasSeed = false;
 
 	// Use this for initialization
 	void Start () {
