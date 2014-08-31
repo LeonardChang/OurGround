@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerInfo : MonoBehaviour {
 
 	public UISprite m_icon;
+	public bool isKnocked = false;
 	// Use this for initialization
 	void Start () {
 	
