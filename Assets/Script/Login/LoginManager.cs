@@ -7,21 +7,23 @@ public class LoginManager : MonoBehaviour {
 	QRProxy mQRProxy = new QRProxy();
 	public UITexture mQRCamera;
 	public UITexture mQRCode;
+
 	void OnEnable()
 	{
 		MessageCenter.Instance.ClientConnectServerEvent += OnClientConnectServer;
 	}
 	
-	/* void OnDisable()
+	void OnDisable()
 	{
 		MessageCenter.Instance.ClientConnectServerEvent -= OnClientConnectServer;
 	}
-	 */
+
 	void Start () {
 		ShowScene(0);
 		
         MessageCenter mc = MessageCenter.Instance;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Application.targetFrameRate = 60;
 	}
 	
 	float time = 0;
