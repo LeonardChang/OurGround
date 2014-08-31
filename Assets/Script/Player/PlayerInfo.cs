@@ -12,6 +12,8 @@ public class PlayerInfo : MonoBehaviour {
 	public bool isPulling = false;
 	public float pullingTime = 0f;
 	public bool hasSeed = false;
+	public bool canKnockOther = false;
+	public float cdTime = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +38,16 @@ public class PlayerInfo : MonoBehaviour {
 					m_icon.spriteName = "DarkSprite1";
 					m_icon.MakePixelPerfect();
 				}
+			}
+		}
+
+		if(!canKnockOther)
+		{
+			cdTime -= Time.deltaTime;
+			if(cdTime <= 0)
+			{
+				cdTime = 0;
+				canKnockOther = true;
 			}
 		}
 	}
