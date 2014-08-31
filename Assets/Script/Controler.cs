@@ -9,6 +9,10 @@ public class Controler : MonoBehaviour {
     public GameObject Cross;
     public Camera MainCamera;
 
+    public LineRenderer Line;
+
+    Vector3 mVec = new Vector3(0, 0, -0.1f);
+
 	// Use this for initialization
 	void Start () {
         MessageCenter.Instance.PlayerIDRefreshEvent = RefreshPlayerNameCallback;
@@ -26,9 +30,16 @@ public class Controler : MonoBehaviour {
 	void Update () {
         if (mIsPressed)
         {
+#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
             Vector2 newpos = Input.GetTouch(mTouchID).position;
+#else
+            Vector2 newpos = Input.mousePosition;
+#endif
 
-            Quan.transform.localPosition = GetCurrentTouchPosition(newpos);
+
+            Vector3 pos = GetCurrentTouchPosition(newpos);
+            Quan.transform.localPosition = pos;
+            Line.SetPosition(1, GetCurrentTouchPosition(newpos, Space.World) + mVec);
 
             Vector2 dir = newpos - mStartPosition;
             dir = dir.normalized;
@@ -172,9 +183,11 @@ public class Controler : MonoBehaviour {
 
             Quan.SetActive(false);
             Cross.SetActive(false);
+            Line.gameObject.SetActive(false);
         }
         else
         {
+#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
             RaycastHit hit = new RaycastHit();
             foreach (var touch in Input.touches)
             {
@@ -186,25 +199,41 @@ public class Controler : MonoBehaviour {
                 }
             }
 
-            //Handheld.Vibrate();
             mStartPosition = Input.GetTouch(mTouchID).position;
+#else
+            mStartPosition = Input.mousePosition;
+#endif
+
             MessageCenter.Instance.SendJoystickControl(true, Vector2.zero);
 
             Quan.SetActive(true);
             Cross.SetActive(true);
+            Line.gameObject.SetActive(true);
 
-            Quan.transform.localPosition = GetCurrentTouchPosition(mStartPosition);
-            Cross.transform.localPosition = GetCurrentTouchPosition(mStartPosition);
+            Vector3 pos = GetCurrentTouchPosition(mStartPosition);
+
+            Quan.transform.localPosition = pos;
+            Cross.transform.localPosition = pos;
+
+            Line.SetPosition(0, GetCurrentTouchPosition(mStartPosition, Space.World) + mVec);
+            Line.SetPosition(1, GetCurrentTouchPosition(mStartPosition, Space.World) + mVec);
         }
     }
 
-    Vector3 GetCurrentTouchPosition(Vector3 _mouse)
+    Vector3 GetCurrentTouchPosition(Vector3 _mouse, Space _space = Space.Self)
     {
         Ray ray = MainCamera.ScreenPointToRay(_mouse);
         RaycastHit hit = new RaycastHit();
         if (TouchPad.collider.Raycast(ray, out hit, float.MaxValue))
         {
-            return TouchPad.transform.InverseTransformPoint(hit.point);
+            if (_space == Space.Self)
+            {
+                return TouchPad.transform.InverseTransformPoint(hit.point);
+            }
+            else
+            {
+                return hit.point;
+            }
         }
 
         return Vector3.zero;

@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		MessageCenter.Instance.ClickButtonEvent = KickGround;
+		MessageCenter.Instance.ClickButtonEvent = GetButtonInfo;
 		MessageCenter.Instance.JoystickControlEvent = MovePlayer;
 	}
 	
@@ -303,178 +303,142 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-//	public void UpdatePlayerPos(out Vector3 destPos, bool isLeft)
-//	{
-//		if(destPos.x <= -270)
-//		{
-//			destPos.x = -270;
-//		}
-//		
-//		if(destPos.x >= 270)
-//		{
-//			destPos.x = 270;
-//		}
-//		
-//		if(destPos.y >= 300)
-//		{
-//			destPos.y = 300;
-//		}
-//		
-//		if(destPos.y <= -300)
-//		{
-//			destPos.y = -300;
-//		}
-//		
-//		TileIndex index = GetTileIndex(destPos, isLeft);
-//		if(isLeft)
-//		{
-//			int row = index.m_x;
-//			int col = index.m_y;
-//			
-//			int width = mp.m_MAPLeft.m_tiles[row,col].m_width;
-//			int height = mp.m_MAPLeft.m_tiles[row,col].m_height;
-//			float ox = mp.m_MAPLeft.m_tiles[row,col].m_pos.x;
-//			float oy = mp.m_MAPLeft.m_tiles[row,col].m_pos.y;
-//			
-//			if(destPos.y > oy)
-//			{
-//				if((row-1 >= 0) && (row-1 <= 10))
-//				{
-//					if(mp.m_MAPLeft.m_tiles[row-1, col].dir.down != 1)
-//					{
-//						if(destPos.x > ox)
-//						{
-//							if((col + 1 >= 1) && (col + 1 <= 9))
-//							{
-//								if(mp.m_MAPLeft.m_tiles[row, col + 1].dir.left == 1)
-//								{
-//									destPos.x
-//								}
-//							}
-//						}
-//						else if(destPos.x < ox)
-//						{
-//							if((col - 1 >= 0) && (col - 1 <= 8))
-//							{
-//								if(mp.m_MAPLeft.m_tiles[row, col - 1].dir.right != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//					}
-//				}
-//			}
-//			else if(destPos.y < oy)
-//			{
-//				if((row + 1 >= 1) && (row+1 <= 10))
-//				{
-//					if(mp.m_MAPLeft.m_tiles[row + 1, col].dir.up != 1)
-//						return false;
-//					else if(mp.m_MAPLeft.m_tiles[row + 1, col].dir.up == 1)
-//					{
-//						if(destPos.x > ox)
-//						{
-//							if((col + 1 >= 1) && (col + 1 <= 9))
-//							{
-//								if(mp.m_MAPLeft.m_tiles[row, col + 1].dir.left != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//						else if(destPos.x < ox)
-//						{
-//							if((col - 1 >= 0) && (col - 1 <= 8))
-//							{
-//								if(mp.m_MAPLeft.m_tiles[row, col - 1].dir.right != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//		else
-//		{
-//			int row = index.m_x;
-//			int col = index.m_y;
-//			
-//			int width = mp.m_MAPRight.m_tiles[row,col].m_width;
-//			int height = mp.m_MAPRight.m_tiles[row,col].m_height;
-//			float ox = mp.m_MAPRight.m_tiles[row,col].m_pos.x;
-//			float oy = mp.m_MAPRight.m_tiles[row,col].m_pos.y;
-//			//int left = ox - width/2;
-//			//int right = ox + width/2;
-//			//int up = oy + height/2;
-//			//int down = oy - height/2;
-//			
-//			if(destPos.y > oy)
-//			{
-//				if((row-1 >= 0) && (row-1 <= 10))
-//				{
-//					if(mp.m_MAPRight.m_tiles[row-1, col].dir.down != 1)
-//						return false;
-//					else if(mp.m_MAPRight.m_tiles[row-1, col].dir.down == 1)
-//					{
-//						if(destPos.x > ox)
-//						{
-//							if((col + 1 >= 1) && (col + 1 <= 9))
-//							{
-//								if(mp.m_MAPRight.m_tiles[row, col + 1].dir.left != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//						else if(destPos.x < ox)
-//						{
-//							if((col - 1 >= 0) && (col - 1 <= 8))
-//							{
-//								if(mp.m_MAPRight.m_tiles[row, col - 1].dir.right != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//					}
-//				}
-//			}
-//			else if(destPos.y < oy)
-//			{
-//				if((row + 1 >= 1) && (row+1 <= 10))
-//				{
-//					if(mp.m_MAPRight.m_tiles[row + 1, col].dir.up != 1)
-//						return false;
-//					else if(mp.m_MAPRight.m_tiles[row + 1, col].dir.up == 1)
-//					{
-//						if(destPos.x > ox)
-//						{
-//							if((col + 1 >= 1) && (col + 1 <= 9))
-//							{
-//								if(mp.m_MAPRight.m_tiles[row, col + 1].dir.left != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//						else if(destPos.x < ox)
-//						{
-//							if((col - 1 >= 0) && (col - 1 <= 8))
-//							{
-//								if(mp.m_MAPRight.m_tiles[row, col - 1].dir.right != 1)
-//									return false;
-//								else
-//									return true;
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
+	public Vector3 UpdatePlayerPos(Vector3 destPos, bool isLeft)
+	{
+		if(destPos.x <= -270)
+		{
+			destPos.x = -270;
+		}
+		
+		if(destPos.x >= 270)
+		{
+			destPos.x = 270;
+		}
+		
+		if(destPos.y >= 300)
+		{
+			destPos.y = 300;
+		}
+		
+		if(destPos.y <= -300)
+		{
+			destPos.y = -300;
+		}
+		
+		TileIndex index = GetTileIndex(destPos, isLeft);
+		if(isLeft)
+		{
+			int row = index.m_x;
+			int col = index.m_y;
+			
+			int width = mp.m_MAPLeft.m_tiles[row,col].m_width;
+			int height = mp.m_MAPLeft.m_tiles[row,col].m_height;
+			float ox = mp.m_MAPLeft.m_tiles[row,col].m_pos.x;
+			float oy = mp.m_MAPLeft.m_tiles[row,col].m_pos.y;
+			
+			
+			if(destPos.y > oy)
+			{
+				if((row-1 >= 0) && (row-1 <= 10))
+				{
+					if(mp.m_MAPLeft.m_tiles[row-1, col].dir.down != 1)
+					{
+						destPos.y = oy;
+						Debug.Log("1");
+					}
+				}
+			}
+			else if(destPos.y < oy)
+			{
+				if((row + 1 >= 1) && (row+1 <= 10))
+				{
+					if(mp.m_MAPLeft.m_tiles[row + 1, col].dir.up != 1)
+					{
+						destPos.y = oy;
+						Debug.Log("2");
+					}
+				}
+			}
+			if(destPos.x > ox)
+			{
+				if((col + 1 >= 1) && (col + 1 <= 9))
+				{
+					if(mp.m_MAPLeft.m_tiles[row, col + 1].dir.left != 1)
+					{
+						destPos.x = ox;
+						Debug.Log(oy);
+						Debug.Log(destPos.y);
+					}
+				}
+			}
+			else if(destPos.x < ox)
+			{
+				if((col - 1 >= 0) && (col - 1 <= 8))
+				{
+					if(mp.m_MAPLeft.m_tiles[row, col - 1].dir.right != 1)
+					{
+						destPos.x = ox;
+						Debug.Log("4");
+					}
+				}
+			}
+		}
+		else
+		{
+			int row = index.m_x;
+			int col = index.m_y;
+			
+			int width = mp.m_MAPRight.m_tiles[row,col].m_width;
+			int height = mp.m_MAPRight.m_tiles[row,col].m_height;
+			float ox = mp.m_MAPRight.m_tiles[row,col].m_pos.x;
+			float oy = mp.m_MAPRight.m_tiles[row,col].m_pos.y;
+			//int left = ox - width/2;
+			//int right = ox + width/2;
+			//int up = oy + height/2;
+			//int down = oy - height/2;
+			if(destPos.y > oy)
+			{
+				if((row-1 >= 0) && (row-1 <= 10))
+				{
+					if(mp.m_MAPRight.m_tiles[row-1, col].dir.down != 1)
+					{
+						destPos.y = oy;
+					}
+				}
+			}
+			else if(destPos.y < oy)
+			{
+				if((row + 1 >= 1) && (row+1 <= 10))
+				{
+					if(mp.m_MAPRight.m_tiles[row + 1, col].dir.up != 1)
+					{
+						destPos.y = oy;
+					}
+				}
+			}
+			if(destPos.x > ox)
+			{
+				if((col + 1 >= 1) && (col + 1 <= 9))
+				{
+					if(mp.m_MAPRight.m_tiles[row, col + 1].dir.left != 1)
+					{
+						destPos.x = ox;
+					}
+				}
+			}
+			else if(destPos.x < ox)
+			{
+				if((col - 1 >= 0) && (col - 1 <= 8))
+				{
+					if(mp.m_MAPRight.m_tiles[row, col - 1].dir.right != 1)
+					{
+						destPos.x = ox;
+					}
+				}
+			}
+		}
+		return destPos;
+	}
 
 	public TileIndex GetTileIndex(Vector3 pos, bool isLeft)
 	{
@@ -601,7 +565,7 @@ public class PlayerController : MonoBehaviour {
 //				}
 //				else
 //				{
-//					//UpdatePlayerPos(p,isLeft);
+//					//p = UpdatePlayerPos(p,isLeft);
 //				}
 //				//m_playDic[id].transform.localPosition += pos;
 //			}
@@ -644,7 +608,8 @@ public class PlayerController : MonoBehaviour {
 				}
 				else
 				{
-					//UpdatePlayerPos(p,isLeft);
+					p = UpdatePlayerPos(p,isLeft);
+					m_playDic[keyPair.Key].transform.localPosition = p;
 				}
 			}
 		}
@@ -679,7 +644,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	public void KickGround(string btn, NetworkMessageInfo msg,string id)
+	public void GetButtonInfo(string btn, NetworkMessageInfo msg,string id)
 	{
 		if (btn == "A")
 		{
@@ -733,10 +698,5 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	public bool ContainsPos(Vector3 pos)
-	{
-
 	}
 }
