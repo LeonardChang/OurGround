@@ -5,6 +5,7 @@ public class PlayerInfo : MonoBehaviour {
 
 	public UISprite m_icon;
 	public bool isKnocked = false;
+	public bool isPulling = false;
 	// Use this for initialization
 	void Start () {
 	

@@ -699,4 +699,65 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
+	
+	public void PullRoot(string id)
+	{
+		bool isLeft = false;
+		//kick ground
+		if(m_playDic.ContainsKey(id))
+		{
+			Vector3 pos = m_playDic[id].transform.localPosition;
+			if(MessageCenter.Instance.mPlayerTeam.ContainsKey(id))
+			{
+				if(MessageCenter.Instance.mPlayerTeam[id] == 0)
+				{
+					isLeft = true;
+				}
+				else
+				{
+					isLeft = false;
+				}
+			}
+			TileIndex index = new TileIndex();
+			index = GetTileIndex(pos, isLeft);
+			if(index.m_x != -1)
+			{
+				int width = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_width;
+				int height = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_height;
+				Tile tTile = new Tile();
+				if(isLeft)
+				{
+					tTile = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y];
+				}
+				else
+				{
+					tTile = mp.m_MAPRight.m_tiles[index.m_x, index.m_y];
+				}
+				if(tTile.isRooted)
+				{
+					m_playDic[id].isPulling = true;
+				}
+				/* foreach(var play in m_playDic)
+				{
+					float left = p.x - width/2;
+					float right = p.x + width/2;
+					float up = p.y + height/2;
+					float down = p.y - height/2;
+					Vector3 pos = play.Value.transform.localPosition;
+					if(pos.x >= left && pos.x <= right && pos.y <= up && pos.y >= down)
+					{
+						play.Value.isKnocked = true;
+						if(isLeft)
+						{
+							play.Value.m_icon.spriteName = "DarkSprite_skill";
+						}
+						else
+						{
+							play.Value.m_icon.spriteName = "LightSprite_skill";
+						}
+					}
+				} */
+			}
+		}
+	}
 }
