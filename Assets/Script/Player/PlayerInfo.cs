@@ -5,10 +5,11 @@ public class PlayerInfo : MonoBehaviour {
 
 	public UISprite m_icon;
 	public bool isKnocked = false;
-	public bool isPulling = false;
 	public float knockTime = 0f;
-	public float pullingTime = 0f;
+	public bool isLeft = false;
 	
+	public bool isPulling = false;
+	public float pullingTime = 0f;
 	// Use this for initialization
 	void Start () {
 	
@@ -23,6 +24,10 @@ public class PlayerInfo : MonoBehaviour {
 			{
 				knockTime = 0;
 				isKnocked = false;
+				if(isLeft)
+					m_icon.spriteName = "LightSprite1";
+				else
+					m_icon.spriteName = "DarkSprite1";
 			}
 		}
 		if(isPulling)
