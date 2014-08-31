@@ -605,7 +605,8 @@ public class PlayerController : MonoBehaviour {
 					
 					if(CanMoveTo(p,isLeft))
 					{
-						ChangeSprite(isLeft, keyPair.Key);
+						if(!m_playDic[keyPair.Key].hasSeed)
+							ChangeSprite(isLeft, keyPair.Key);
 						m_playDic[keyPair.Key].transform.localPosition = p;
 					}
 					else
@@ -869,12 +870,14 @@ public class PlayerController : MonoBehaviour {
 							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isRooted = true;
 							TileInfo tf = mp.leftTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "LightSeed";
+							tf.tileFlower.MakePixelPerfect();
 							tf.hasFlower = false;
 							tf.hasSeed = true;
 							tf.isGrowing = true;
 							tf.growTime = 10;
 							tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "DarkRoot";
+							tf.tileFlower.MakePixelPerfect();
 						}
 					}
 					else
@@ -887,12 +890,14 @@ public class PlayerController : MonoBehaviour {
 
 							TileInfo tf = mp.rightTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "DarkSeed";
+							tf.tileFlower.MakePixelPerfect();
 							tf.hasFlower = false;
 							tf.hasSeed = true;
 							tf.isGrowing = true;
 							tf.growTime = 10;
 							tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "LightRoot";
+							tf.tileFlower.MakePixelPerfect();
 						}
 					}
 				}
