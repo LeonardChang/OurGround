@@ -248,7 +248,7 @@ public class Controler : MonoBehaviour {
             return;
         }
 
-        MessageCenter.Instance.SendJoystickControl(_down, _dir * 2f);
+        MessageCenter.Instance.SendJoystickControl(_down, _dir * 2.5f);
         mLastDir = _dir;
     }
 }
