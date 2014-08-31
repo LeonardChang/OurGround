@@ -5,6 +5,9 @@ public class PlayerInfo : MonoBehaviour {
 
 	public UISprite m_icon;
 	public bool isKnocked = false;
+	public float knockTime = 0f;
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -12,6 +15,14 @@ public class PlayerInfo : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(isKnocked)
+		{
+			knockTime -= Time.deltaTime;
+			if(knockTime <= 0)
+			{
+				knockTime = 0;
+				isKnocked = false;
+			}
+		}
 	}
 }

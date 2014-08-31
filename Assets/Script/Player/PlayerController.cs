@@ -587,29 +587,32 @@ public class PlayerController : MonoBehaviour {
 		{
 			if(m_playDic.ContainsKey(keyPair.Key))
 			{
-				Vector3 p = m_playDic[keyPair.Key].transform.localPosition;
-				p += (Vector3)keyPair.Value * Time.deltaTime * 60;
-				if(MessageCenter.Instance.mPlayerTeam.ContainsKey(keyPair.Key))
+				if(!m_playDic[keyPair.Key].isKnocked)
 				{
-					if(MessageCenter.Instance.mPlayerTeam[keyPair.Key] == 0)
+					Vector3 p = m_playDic[keyPair.Key].transform.localPosition;
+					p += (Vector3)keyPair.Value * Time.deltaTime * 60;
+					if(MessageCenter.Instance.mPlayerTeam.ContainsKey(keyPair.Key))
 					{
-						isLeft = true;
+						if(MessageCenter.Instance.mPlayerTeam[keyPair.Key] == 0)
+						{
+							isLeft = true;
+						}
+						else
+						{
+							isLeft = false;
+						}
+					}
+					
+					if(CanMoveTo(p,isLeft))
+					{
+						ChangeSprite(isLeft, keyPair.Key);
+						m_playDic[keyPair.Key].transform.localPosition = p;
 					}
 					else
 					{
-						isLeft = false;
+						p = UpdatePlayerPos(p,isLeft);
+						m_playDic[keyPair.Key].transform.localPosition = p;
 					}
-				}
-				
-				if(CanMoveTo(p,isLeft))
-				{
-					ChangeSprite(isLeft, keyPair.Key);
-					m_playDic[keyPair.Key].transform.localPosition = p;
-				}
-				else
-				{
-					p = UpdatePlayerPos(p,isLeft);
-					m_playDic[keyPair.Key].transform.localPosition = p;
 				}
 			}
 		}
@@ -672,19 +675,33 @@ public class PlayerController : MonoBehaviour {
 				index = GetTileIndex(pos, isLeft);
 				if(index.m_x != -1)
 				{
-					Vector3 p = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_pos;
-					int width = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_width;
-					int height = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_height;
+					Vector3 p;
+					int width;
+					int height;
+					if(isLeft)
+					{
+						p = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_pos;
+						width = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_width;
+						height = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_height;
+					}
+					else
+					{
+						p = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_pos;
+						width = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_width;
+						height = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_height;
+					}
+
 					foreach(var play in m_playDic)
 					{
 						float left = p.x - width/2;
 						float right = p.x + width/2;
 						float up = p.y + height/2;
 						float down = p.y - height/2;
-						Vector3 pos = play.Value.transform.localPosition;
-						if(pos.x >= left && pos.x <= right && pos.y <= up && pos.y >= down)
+						Vector3 tempPos = play.Value.transform.localPosition;
+						if(tempPos.x >= left && tempPos.x <= right && tempPos.y <= up && tempPos.y >= down)
 						{
 							play.Value.isKnocked = true;
+							play.Value.knockTime = 0.5f;
 							if(isLeft)
 							{
 								play.Value.m_icon.spriteName = "DarkSprite_skill";
