@@ -531,13 +531,13 @@ public class PlayerController : MonoBehaviour {
 					
 					m_playDic[id].transform.localRotation = q;
 				}
-			}
-			else
-			{
-				Quaternion q = new Quaternion();
-				q.eulerAngles = new Vector3(0,180,0);
-				
-				m_playDic[id].transform.localRotation = q;
+				else
+				{
+					Quaternion q = new Quaternion();
+					q.eulerAngles = new Vector3(0,180,0);
+					
+					m_playDic[id].transform.localRotation = q;
+				}
 			}
 
 //			bool isLeft = false;
