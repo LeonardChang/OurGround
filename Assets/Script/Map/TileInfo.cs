@@ -34,15 +34,18 @@ public class TileInfo : MonoBehaviour {
 					growTime = 0;
 					hasFlower = true;
 					hasSeed = false;
+					isGrowing = false;
 					if(isLeft)
 					{
 						tileFlower.spriteName = "LightFlower";
 						tileFlower.MakePixelPerfect();
+						++MapController.Instance.m_MAPLeft.m_score;
 					}
 					else
 					{
 						tileFlower.spriteName = "DarkFlower";
 						tileFlower.MakePixelPerfect();
+						++MapController.Instance.m_MAPRight.m_score;
 					}
 				}
 			}

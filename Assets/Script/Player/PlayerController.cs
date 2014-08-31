@@ -875,18 +875,18 @@ public class PlayerController : MonoBehaviour {
 					TileIndex index = GetTileIndex(play.Value.transform.localPosition, play.Value.isLeft);
 					if(play.Value.isLeft)
 					{
-						Debug.Log(index.m_x);
-						Debug.Log(index.m_y);
-						Debug.Log(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index.m_x);
-						Debug.Log(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index.m_y);
 						play.Value.m_icon.spriteName = "LightSprite1_catchSeed";
 						play.Value.hasSeed = true;
 						mp.leftTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
-						//mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].SetActive(false);
-						//mp.rightTiles[mp.m_MAPLeft.m_tiles[6, 6].m_opponentTile.m_index].SetActive(false);
+						if(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
+						{
+							--mp.m_MAPRight.m_score;
+							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
+						}
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
+						
 					}
 					else
 					{
@@ -894,6 +894,11 @@ public class PlayerController : MonoBehaviour {
 						play.Value.hasSeed = true;
 						mp.rightTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						if(mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
+						{
+							--mp.m_MAPLeft.m_score;
+							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
+						}
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
 					}
