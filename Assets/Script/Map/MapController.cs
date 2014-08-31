@@ -60,8 +60,12 @@ public class MapController : MonoBehaviour {
 	{
 		//string path1 = "Resources/Data/SceneA.txt";
 		//string path2 = "Resources/Data/SceneB.txt";
+
 		m_MAPLeft = new Map(MAX_ROW, MAX_COL);
+		m_MAPLeft.m_score = MessageCenter.Instance.mTeam1Num * 10;
 		m_MAPRight = new Map(MAX_ROW, MAX_COL);
+		m_MAPRight.m_score = MessageCenter.Instance.mTeam2Num * 10;
+
 		GetMapData(mapA, m_MAPLeft);
 		GetMapData(mapB, m_MAPRight);
 
