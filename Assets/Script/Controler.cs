@@ -36,6 +36,8 @@ public class Controler : MonoBehaviour {
             Vector2 newpos = Input.mousePosition;
 #endif
 
+            float distance = Vector2.Distance(newpos, mStartPosition);
+
             if (Mathf.Abs(newpos.x - mStartPosition.x) < 80)
             {
                 newpos.x = mStartPosition.x;
@@ -52,7 +54,7 @@ public class Controler : MonoBehaviour {
 
             Vector2 dir = newpos - mStartPosition;
             dir = dir.normalized;
-            float distance = Vector2.Distance(newpos, mStartPosition);
+           
             float rat = distance / 200f;
             if (rat > 1)
             {
@@ -259,15 +261,17 @@ public class Controler : MonoBehaviour {
     }
 
     Vector2 mLastDir = new Vector2(-999, -999);
+    float mLastRatio = -1;
 
     void SendJoystick(bool _down, Vector2 _dir, float _ratio = 2.5f)
     {
-        if (_dir == mLastDir)
+        if (_dir == mLastDir && mLastRatio != _ratio)
         {
             return;
         }
 
         MessageCenter.Instance.SendJoystickControl(_down, _dir * _ratio);
         mLastDir = _dir;
+        mLastRatio = _ratio;
     }
 }
