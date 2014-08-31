@@ -652,6 +652,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			//pull root, plant
 			PullRoot(id);
+			Plant(id);
 		}
 		else if(btn == "B")
 		{
