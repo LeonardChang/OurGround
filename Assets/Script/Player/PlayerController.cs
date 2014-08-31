@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour {
 					o.transform.localScale = Vector3.one;
 					SetPlayerPos(o,true);
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
+                    o.GetComponent<PlayerInfo>().m_Label.text = MessageCenter.Instance.GetPlayerName(playID[i]);
 				}
 				else if(MessageCenter.Instance.mPlayerTeam[playID[i]] == 1)
 				{
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour {
 					pi.m_icon.spriteName = "DarkSprite1";
 					SetPlayerPos(o,false);
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
+                    o.GetComponent<PlayerInfo>().m_Label.text = MessageCenter.Instance.GetPlayerName(playID[i]);
 				}
 			}
 		}
@@ -514,15 +516,15 @@ public class PlayerController : MonoBehaviour {
 				{
 					Quaternion q = new Quaternion();
 					q.eulerAngles = new Vector3(0,0,0);
-					
-					m_playDic[id].transform.localRotation = q;
+
+                    m_playDic[id].transform.FindChild("Icon").localRotation = q;
 				}
 				else
 				{
 					Quaternion q = new Quaternion();
 					q.eulerAngles = new Vector3(0,180,0);
-					
-					m_playDic[id].transform.localRotation = q;
+
+                    m_playDic[id].transform.FindChild("Icon").localRotation = q;
 				}
 			}
 

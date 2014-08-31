@@ -6,11 +6,10 @@ public class PlayerInfo : MonoBehaviour {
 	public UISprite m_icon;
 	public bool isKnocked = false;
 	public float knockTime = 0f;
-
+    public UILabel m_Label;
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame

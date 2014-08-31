@@ -36,6 +36,15 @@ public class Controler : MonoBehaviour {
             Vector2 newpos = Input.mousePosition;
 #endif
 
+            if (Mathf.Abs(newpos.x - mStartPosition.x) < 80)
+            {
+                newpos.x = mStartPosition.x;
+            }
+
+            if (Mathf.Abs(newpos.y - mStartPosition.y) < 80)
+            {
+                newpos.y = mStartPosition.y;
+            }
 
             Vector3 pos = GetCurrentTouchPosition(newpos);
             Quan.transform.localPosition = pos;
@@ -43,7 +52,17 @@ public class Controler : MonoBehaviour {
 
             Vector2 dir = newpos - mStartPosition;
             dir = dir.normalized;
-            SendJoystick(true, dir);
+            float distance = Vector2.Distance(newpos, mStartPosition);
+            float rat = distance / 200f;
+            if (rat > 1)
+            {
+                rat = 1;
+            }
+            else if (rat < 0.1f)
+            {
+                rat = 0.1f;
+            }
+            SendJoystick(true, dir, 2.5f * rat);
         }
 
         if (Input.GetKeyUp(KeyCode.Z))
@@ -241,14 +260,14 @@ public class Controler : MonoBehaviour {
 
     Vector2 mLastDir = new Vector2(-999, -999);
 
-    void SendJoystick(bool _down, Vector2 _dir)
+    void SendJoystick(bool _down, Vector2 _dir, float _ratio = 2.5f)
     {
         if (_dir == mLastDir)
         {
             return;
         }
 
-        MessageCenter.Instance.SendJoystickControl(_down, _dir * 2.5f);
+        MessageCenter.Instance.SendJoystickControl(_down, _dir * _ratio);
         mLastDir = _dir;
     }
 }
