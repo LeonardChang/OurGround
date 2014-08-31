@@ -123,14 +123,14 @@ public class MapController : MonoBehaviour {
 				
 				if(m_MAPLeft.m_tiles[i,j].isPlanted)
 				{
-					Debug.Log("Flower");
+					//Debug.Log("Flower");
 					tf.tileFlower.gameObject.SetActive(true);
 					tf.tileFlower.spriteName = "LightFlower";
 					tf.tileFlower.MakePixelPerfect();
 				}
 				else if(m_MAPLeft.m_tiles[i,j].isRooted)
 				{
-					Debug.Log("Root");
+					//Debug.Log("Root");
 					tf.tileFlower.gameObject.SetActive(true);
 					tf.tileFlower.spriteName = "DarkRoot";
 					tf.tileFlower.MakePixelPerfect();
