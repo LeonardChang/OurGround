@@ -587,7 +587,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			if(m_playDic.ContainsKey(keyPair.Key))
 			{
-				if(!m_playDic[keyPair.Key].isKnocked)
+				if(!m_playDic[keyPair.Key].isKnocked && !m_playDic[keyPair.Key].isPulling)
 				{
 					Vector3 p = m_playDic[keyPair.Key].transform.localPosition;
 					p += (Vector3)keyPair.Value * Time.deltaTime * 60;
@@ -685,6 +685,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void GetButtonInfo(string btn, NetworkMessageInfo msg,string id)
 	{
+		if(m_playDic[keyPair.Key].isKnocked || m_playDic[keyPair.Key].isPulling) return;
 		if (btn == "A")
 		{
 			//pull root, plant
