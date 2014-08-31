@@ -853,6 +853,10 @@ public class PlayerController : MonoBehaviour {
 						}
 						if(tempPos.x >= left && tempPos.x <= right && tempPos.y <= up && tempPos.y >= down)
 						{
+							if(play.Value.isPulling)
+							{
+								play.Value.isPulling = false;
+							}
 							play.Value.isKnocked = true;
 							play.Value.knockTime = 0.5f;
 //							if(isLeft)
