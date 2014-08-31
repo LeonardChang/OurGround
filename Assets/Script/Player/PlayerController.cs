@@ -704,11 +704,11 @@ public class PlayerController : MonoBehaviour {
 							play.Value.knockTime = 0.5f;
 							if(isLeft)
 							{
-								play.Value.m_icon.spriteName = "DarkSprite_skill";
+								play.Value.m_icon.spriteName = "LightSprite_skill";
 							}
 							else
 							{
-								play.Value.m_icon.spriteName = "LightSprite_skill";
+								play.Value.m_icon.spriteName = "DarkSprite_skill";
 							}
 						}
 					}
