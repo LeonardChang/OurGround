@@ -74,9 +74,11 @@ public class Tile
 public class Map
 {
 	public Tile[,] m_tiles;
+	public int m_score;
 
 	public Map(int row, int col)
 	{
+		m_score = 0;
 		m_tiles = new Tile[row, col];
 		for(int i = 0; i < row; i++)
 		{

@@ -922,6 +922,7 @@ public class PlayerController : MonoBehaviour {
 							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isRooted = true;
 							TileInfo tf = mp.leftTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "LightSeed";
+							tf.tileFlower.gameObject.SetActive(true);
 							tf.tileFlower.MakePixelPerfect();
 							tf.hasFlower = false;
 							tf.hasSeed = true;
@@ -929,6 +930,7 @@ public class PlayerController : MonoBehaviour {
 							tf.growTime = 10;
 							tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "DarkRoot";
+							tf.tileFlower.gameObject.SetActive(true);
 							tf.tileFlower.MakePixelPerfect();
 						}
 					}
@@ -943,6 +945,7 @@ public class PlayerController : MonoBehaviour {
 							TileInfo tf = mp.rightTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "DarkSeed";
 							tf.tileFlower.MakePixelPerfect();
+							tf.tileFlower.gameObject.SetActive(true);
 							tf.hasFlower = false;
 							tf.hasSeed = true;
 							tf.isGrowing = true;
@@ -950,6 +953,7 @@ public class PlayerController : MonoBehaviour {
 							tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
 							tf.tileFlower.spriteName = "LightRoot";
 							tf.tileFlower.MakePixelPerfect();
+							tf.tileFlower.gameObject.SetActive(true);
 						}
 					}
 				}
