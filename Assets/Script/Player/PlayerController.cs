@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour {
 	public GameObject rightPanel;
 	public Dictionary<string, PlayerInfo> m_playDic = new Dictionary<string, PlayerInfo>();
 	public Dictionary<string, Vector2> m_playRunInfo = new Dictionary<string, Vector2>();
-	public Map m_mapLeft;
-	public Map m_mapRight;
+
+	public List<TileIndex> usedTileList = new List<TileIndex>();
 	public float ratio = 1.35f;
 	public MapController mp;
 
@@ -76,11 +76,22 @@ public class PlayerController : MonoBehaviour {
 
 	public void SetPlayerPos(GameObject o, bool left)
 	{
+		bool canPlacePlayer = false;
 		if(left)
 		{
-			int row = UnityEngine.Random.Range(0, 4);
-			int col = UnityEngine.Random.Range(0, 10);
-			o.transform.localPosition = (Vector3)mp.m_MAPLeft.m_tiles[row,col].m_pos;//(Vector3)(MapController.Instance.m_MAPLeft.m_tiles[row,col].m_pos);
+			while(!canPlacePlayer)
+			{
+				int row = UnityEngine.Random.Range(0, 4);
+				int col = UnityEngine.Random.Range(0, 10);
+				TileIndex index = new TileIndex(row, col);
+				if(!usedTileList.Contains(index))
+				{
+					Tile tile = mp.m_MAPLeft.m_tiles[row, col];
+					usedTileList.Add(index);
+					canPlacePlayer = true;
+					o.transform.localPosition = (Vector3)mp.m_MAPLeft.m_tiles[row,col].m_pos;
+				}
+			}
 		}
 		else
 		{
@@ -602,7 +613,7 @@ public class PlayerController : MonoBehaviour {
 			if(m_playDic.ContainsKey(keyPair.Key))
 			{
 				Vector3 p = m_playDic[keyPair.Key].transform.localPosition;
-				p += (Vector3)keyPair.Value;
+				p += (Vector3)keyPair.Value * Time.deltaTime * 60;
 				if(MessageCenter.Instance.mPlayerTeam.ContainsKey(keyPair.Key))
 				{
 					if(MessageCenter.Instance.mPlayerTeam[keyPair.Key] == 0)

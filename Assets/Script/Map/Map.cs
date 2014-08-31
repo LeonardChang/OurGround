@@ -35,6 +35,11 @@ public class TileIndex
 		m_x = 0;
 		m_y = 0;
 	}
+	public TileIndex(int a, int b)
+	{
+		m_x = a;
+		m_y = b;
+	}
 }
 
 public class Tile
