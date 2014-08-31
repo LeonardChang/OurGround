@@ -37,11 +37,13 @@ public class TileInfo : MonoBehaviour {
 					{
 						tileFlower.spriteName = "LightFlower";
 						tileFlower.MakePixelPerfect();
+						++MapController.Instance.m_MAPLeft.m_score;
 					}
 					else
 					{
 						tileFlower.spriteName = "DarkFlower";
 						tileFlower.MakePixelPerfect();
+						++MapController.Instance.m_MAPRight.m_score;
 					}
 				}
 			}
