@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour {
 					SetPlayerPos(o,true);
 					o.GetComponent<PlayerInfo>().isLeft = true;
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
+                    o.GetComponent<PlayerInfo>().m_Label.text = MessageCenter.Instance.GetPlayerName(playID[i]);
 				}
 				else if(MessageCenter.Instance.mPlayerTeam[playID[i]] == 1)
 				{
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour {
 					pi.isLeft = false;
 					SetPlayerPos(o,false);
 					m_playDic.Add(playID[i], o.GetComponent<PlayerInfo>());
+                    o.GetComponent<PlayerInfo>().m_Label.text = MessageCenter.Instance.GetPlayerName(playID[i]);
 				}
 			}
 		}
@@ -516,15 +518,15 @@ public class PlayerController : MonoBehaviour {
 				{
 					Quaternion q = new Quaternion();
 					q.eulerAngles = new Vector3(0,0,0);
-					
-					m_playDic[id].transform.localRotation = q;
+
+                    m_playDic[id].transform.FindChild("Icon").localRotation = q;
 				}
 				else
 				{
 					Quaternion q = new Quaternion();
 					q.eulerAngles = new Vector3(0,180,0);
-					
-					m_playDic[id].transform.localRotation = q;
+
+                    m_playDic[id].transform.FindChild("Icon").localRotation = q;
 				}
 			}
 
@@ -752,6 +754,14 @@ public class PlayerController : MonoBehaviour {
 					{
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isPlanted = true;
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isRooted = true;
+						TileInfo tf = mp.leftTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_index].GetComponent<TileInfo>();
+						tf.tileFlower.spriteName = "LightSeed";
+						tf.hasFlower = false;
+						tf.hasSeed = true;
+						tf.isGrowing = true;
+						tf.growTime = 10;
+						tf = mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
+						tf.tileFlower.spriteName = "DarkRoot";
 					}
 				}
 				else
@@ -761,6 +771,15 @@ public class PlayerController : MonoBehaviour {
 					{
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isPlanted = true;
 						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.isRooted  = true;
+
+						TileInfo tf = mp.rightTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_index].GetComponent<TileInfo>();
+						tf.tileFlower.spriteName = "DarkSeed";
+						tf.hasFlower = false;
+						tf.hasSeed = true;
+						tf.isGrowing = true;
+						tf.growTime = 10;
+						tf = mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>();
+						tf.tileFlower.spriteName = "LightRoot";
 					}
 				}
 				

@@ -9,7 +9,12 @@ public class TileInfo : MonoBehaviour {
 	public UISprite tileRightBlock;
 	public UISprite tileDownBlock;
 	public UISprite tileLeftBlock;
-	
+
+	public bool isGrowing = false;
+	public bool hasFlower = false;
+	public bool hasSeed = false;
+	public float growTime = 0;
+	public bool isLeft = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -18,6 +23,22 @@ public class TileInfo : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(hasSeed)
+		{
+			if(isGrowing)
+			{
+				growTime -= Time.deltaTime;
+				if(growTime <= 0)
+				{
+					growTime = 0;
+					hasFlower = true;
+					hasSeed = false;
+					if(isLeft)
+						tileFlower.spriteName = "LightFlower";
+					else
+						tileFlower.spriteName = "DarkFlower";
+				}
+			}
+		}
 	}
 }

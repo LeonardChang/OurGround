@@ -85,6 +85,7 @@ public class MapController : MonoBehaviour {
 
 				TileInfo tf = o.GetComponent<TileInfo>();
 				tf.tileBG.spriteName = "LightGround";
+				tf.isLeft = true;
 				if(m_MAPLeft.m_tiles[i,j].dir.up == 0)
 				{
 					tf.tileUpBlock.gameObject.SetActive(true);
@@ -139,8 +140,8 @@ public class MapController : MonoBehaviour {
 				{
 					tf.tileFlower.gameObject.SetActive(false);
 				}
-				TileIndex numIndex = new TileIndex(i,j);
-				leftTiles.Add(numIndex,o);
+
+				leftTiles.Add(m_MAPLeft.m_tiles[i,j].m_index,o);
 
 				GameObject obj = GameObject.Instantiate(Resources.Load("Prefabs/Tile")) as GameObject;
 				obj.transform.parent = m_objRight.transform;
@@ -150,7 +151,7 @@ public class MapController : MonoBehaviour {
 
 				tf = obj.GetComponent<TileInfo>();
 				tf.tileBG.spriteName = "DarkGround";
-
+				tf.isLeft = false;
 				if(m_MAPRight.m_tiles[i,j].dir.up == 0)
 				{
 					tf.tileUpBlock.gameObject.SetActive(true);
@@ -203,8 +204,7 @@ public class MapController : MonoBehaviour {
 					tf.tileFlower.gameObject.SetActive(false);
 				}
 
-				TileIndex numIndex2 = new TileIndex(i,j);
-				rightTiles.Add(numIndex2,o);
+				rightTiles.Add(m_MAPRight.m_tiles[i,j].m_index,o);
 			}
 		}
 	}
