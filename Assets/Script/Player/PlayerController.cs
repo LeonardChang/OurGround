@@ -685,7 +685,14 @@ public class PlayerController : MonoBehaviour {
 
 	public void GetButtonInfo(string btn, NetworkMessageInfo msg,string id)
 	{
-		if(m_playDic[keyPair.Key].isKnocked || m_playDic[keyPair.Key].isPulling) return;
+		if(m_playDic.ContainsKey(id))
+		{
+			if(m_playDic[id].isKnocked || m_playDic[id].isPulling) return;
+		}
+		else
+		{
+			return;
+		}
 		if (btn == "A")
 		{
 			//pull root, plant
