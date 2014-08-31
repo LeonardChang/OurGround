@@ -33,6 +33,7 @@ public class TileInfo : MonoBehaviour {
 					growTime = 0;
 					hasFlower = true;
 					hasSeed = false;
+					isGrowing = false;
 					if(isLeft)
 					{
 						tileFlower.spriteName = "LightFlower";

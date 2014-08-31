@@ -463,7 +463,7 @@ public class PlayerController : MonoBehaviour {
 
 					if(pos.x >= left && pos.x <= right)
 					{
-						if(pos.y >= down && pos.y =< up)
+						if(pos.y >= down && pos.y <= up)
 						{
 							return mp.m_MAPLeft.m_tiles[i,j].m_index;
 						}
@@ -480,9 +480,9 @@ public class PlayerController : MonoBehaviour {
 					float up = oy + height/2;
 					float down = oy - height/2;
 					
-					if(pos.x >= left && pos.x =< right)
+					if(pos.x >= left && pos.x <= right)
 					{
-						if(pos.y >= down && pos.y =< up)
+						if(pos.y >= down && pos.y <= up)
 						{
 							return mp.m_MAPRight.m_tiles[i,j].m_index;
 						}
@@ -863,7 +863,7 @@ public class PlayerController : MonoBehaviour {
 						play.Value.hasSeed = true;
 						mp.leftTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
-						if(mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].canAward)
+						if(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward)
 						{
 							--mp.m_MAPRight.m_score;
 							mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.canAward = false;
