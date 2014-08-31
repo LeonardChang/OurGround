@@ -1076,11 +1076,13 @@ public class PlayerController : MonoBehaviour {
 		{
 			for(int j = 0; j < mp.MAX_COL; j++)
 			{
-				if(mp.leftTiles[mp.m_MAPLeft.m_tiles[i,j].m_index].GetComponent<TileInfo>().tileFlower.spriteName == "LightFlower")
+				UISprite tsprite = mp.leftTiles[mp.m_MAPLeft.m_tiles[i,j].m_index].GetComponent<TileInfo>().tileFlower;
+				if(tsprite.spriteName == "LightFlower" && tsprite.gameObject.activeInHierarchy)
 				{
 					mp.m_MAPLeft.m_score++;
 				}
-				if(mp.rightTiles[mp.m_MAPRight.m_tiles[i,j].m_index].GetComponent<TileInfo>().tileFlower.spriteName == "DarkFlower")
+				tsprite = mp.rightTiles[mp.m_MAPRight.m_tiles[i,j].m_index].GetComponent<TileInfo>().tileFlower;
+				if(tsprite.spriteName == "DarkFlower" && tsprite.gameObject.activeInHierarchy)
 				{
 					mp.m_MAPRight.m_score++;
 				}
@@ -1092,21 +1094,13 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log(mp.m_MAPRight.m_score);
 		leftScore.text = mp.m_MAPLeft.m_score.ToString();
 		rightScore.text = mp.m_MAPRight.m_score.ToString();
-		/* if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
+		if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
 		{
 			Application.LoadLevel("LightWin");		
 		}
 		else if(mp.m_MAPRight.m_score >= MessageCenter.Instance.mTeam2Num * 10 + MessageCenter.Instance.mTeam1Num * 3)
 		{
 			Application.LoadLevel("DarkWin");
-		} */
-//		if (mp.m_MAPLeft.m_score >= MessageCenter.Instance.mTeam1Num * 10 + MessageCenter.Instance.mTeam2Num * 3) 
-//		{
-//			Application.LoadLevel("LightWin");		
-//		}
-//		else if(mp.m_MAPRight.m_score >= MessageCenter.Instance.mTeam2Num * 10 + MessageCenter.Instance.mTeam1Num * 3)
-//		{
-//			Application.LoadLevel("DarkWin");
-//		}
+		}
 	}
 }
