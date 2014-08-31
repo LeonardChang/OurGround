@@ -604,43 +604,79 @@ public class PlayerController : MonoBehaviour {
 					
 					if(CanMoveTo(p,isLeft))
 					{
-						ChangeSprite(isLeft, keyPair.Key);
 						m_playDic[keyPair.Key].transform.localPosition = p;
+						ChangeSprite(isLeft, keyPair.Key);
 					}
 					else
 					{
 						p = UpdatePlayerPos(p,isLeft);
+						ChangeSprite(isLeft, keyPair.Key);
 						m_playDic[keyPair.Key].transform.localPosition = p;
 					}
 				}
 			}
 		}
 	}
-
+	
+	public float moveAnim = 0f;
+	
 	public void ChangeSprite(bool isLeft, string id)
 	{
-		if(m_playDic.ContainsKey(id))
+		moveAnim += Time.deltaTime;
+		if(moveAnim > 0.5f)
 		{
-			if(isLeft)
+			moveAnim = 0;
+			if(m_playDic.ContainsKey(id))
 			{
-				if(m_playDic[id].m_icon.spriteName == "LightSprite1")
+				if(isLeft)
 				{
-					m_playDic[id].m_icon.spriteName = "LightSprite2";
+					if(m_playDic[id].hasSeed)
+					{
+						if(m_playDic[id].m_icon.spriteName == "LightSprite1_catchSeed")
+						{
+							m_playDic[id].m_icon.spriteName = "LightSprite2_catchSeed";
+						}
+						else
+						{
+							m_playDic[id].m_icon.spriteName = "LightSprite1_catchSeed";
+						}
+					}
+					else
+					{
+						if(m_playDic[id].m_icon.spriteName == "LightSprite1")
+						{
+							m_playDic[id].m_icon.spriteName = "LightSprite2";
+						}
+						else
+						{
+							m_playDic[id].m_icon.spriteName = "LightSprite1";
+						}
+					}
 				}
 				else
 				{
-					m_playDic[id].m_icon.spriteName = "LightSprite1";
-				}
-			}
-			else
-			{
-				if(m_playDic[id].m_icon.spriteName == "DarkSprite1")
-				{
-					m_playDic[id].m_icon.spriteName = "DarkSprite2";
-				}
-				else
-				{
-					m_playDic[id].m_icon.spriteName = "DarkSprite1";
+					if(m_playDic[id].hasSeed)
+					{
+						if(m_playDic[id].m_icon.spriteName == "DarkSprite1_catchSeed")
+						{
+							m_playDic[id].m_icon.spriteName = "DarkSprite2_catchSeed";
+						}
+						else
+						{
+							m_playDic[id].m_icon.spriteName = "DarkSprite1_catchSeed";
+						}
+					}
+					else
+					{
+						if(m_playDic[id].m_icon.spriteName == "DarkSprite1")
+						{
+							m_playDic[id].m_icon.spriteName = "DarkSprite2";
+						}
+						else
+						{
+							m_playDic[id].m_icon.spriteName = "DarkSprite1";
+						}
+					}
 				}
 			}
 		}
@@ -651,8 +687,17 @@ public class PlayerController : MonoBehaviour {
 		if (btn == "A")
 		{
 			//pull root, plant
-			PullRoot(id);
-			Plant(id);
+			if(m_playDic.ContainsKey(id))
+			{
+				if(m_playDic[id].hasSeed)
+				{
+					Plant(id);
+				}
+				else
+				{
+					PullRoot(id);
+				}
+			}
 		}
 		else if(btn == "B")
 		{
@@ -805,18 +850,18 @@ public class PlayerController : MonoBehaviour {
 						Debug.Log(index.m_y);
 						Debug.Log(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index.m_x);
 						Debug.Log(mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index.m_y);
-						play.Value.m_icon.spriteName = "LightSprite1";
+						play.Value.m_icon.spriteName = "LightSprite1_catchSeed";
 						play.Value.hasSeed = true;
 						mp.leftTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
-						//mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						//mp.rightTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].SetActive(false);
-						mp.rightTiles[mp.m_MAPLeft.m_tiles[6, 6].m_opponentTile.m_index].SetActive(false);
+						//mp.rightTiles[mp.m_MAPLeft.m_tiles[6, 6].m_opponentTile.m_index].SetActive(false);
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
 						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
 					}
 					else
 					{
-						play.Value.m_icon.spriteName = "DarkSprite1";
+						play.Value.m_icon.spriteName = "DarkSprite1_catchSeed";
 						play.Value.hasSeed = true;
 						mp.rightTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
 						mp.leftTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
