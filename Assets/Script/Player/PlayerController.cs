@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
 		if (startGame) 
 		{
 			UpdatePos();
-
+			Pulling();
 		}
 	}
 
@@ -348,7 +348,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row-1, col].dir.down != 1)
 					{
 						destPos.y = oy;
-						Debug.Log("1");
 					}
 				}
 			}
@@ -359,7 +358,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row + 1, col].dir.up != 1)
 					{
 						destPos.y = oy;
-						Debug.Log("2");
 					}
 				}
 			}
@@ -370,8 +368,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row, col + 1].dir.left != 1)
 					{
 						destPos.x = ox;
-						Debug.Log(oy);
-						Debug.Log(destPos.y);
 					}
 				}
 			}
@@ -382,7 +378,6 @@ public class PlayerController : MonoBehaviour {
 					if(mp.m_MAPLeft.m_tiles[row, col - 1].dir.right != 1)
 					{
 						destPos.x = ox;
-						Debug.Log("4");
 					}
 				}
 			}
@@ -656,7 +651,7 @@ public class PlayerController : MonoBehaviour {
 		if (btn == "A")
 		{
 			//pull root, plant
-
+			PullRoot(id);
 		}
 		else if(btn == "B")
 		{
@@ -718,6 +713,114 @@ public class PlayerController : MonoBehaviour {
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	public void PullRoot(string id)
+	{
+		bool isLeft = false;
+		if(m_playDic.ContainsKey(id))
+		{
+			Vector3 pos = m_playDic[id].transform.localPosition;
+			if(MessageCenter.Instance.mPlayerTeam.ContainsKey(id))
+			{
+				if(MessageCenter.Instance.mPlayerTeam[id] == 0)
+				{
+					isLeft = true;
+				}
+				else
+				{
+					isLeft = false;
+				}
+			}
+			TileIndex index = new TileIndex();
+			index = GetTileIndex(pos, isLeft);
+			if(index.m_x != -1)
+			{
+				int width = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_width;
+				int height = mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_height;
+				Tile tTile = new Tile();
+				if(isLeft)
+				{
+					tTile = mp.m_MAPLeft.m_tiles[index.m_x, index.m_y];
+				}
+				else
+				{
+					tTile = mp.m_MAPRight.m_tiles[index.m_x, index.m_y];
+				}
+				if(tTile.isRooted)
+				{
+					m_playDic[id].isPulling = true;
+					m_playDic[id].pullingTime = 4;
+					if(isLeft)
+					{
+						m_playDic[id].m_icon.spriteName = "LightSprite_draw";
+					}
+					else
+					{
+						m_playDic[id].m_icon.spriteName = "DarkSprite_draw";
+					}
+				}
+				/* foreach(var play in m_playDic)
+				{
+					float left = p.x - width/2;
+					float right = p.x + width/2;
+					float up = p.y + height/2;
+					float down = p.y - height/2;
+					Vector3 pos = play.Value.transform.localPosition;
+					if(pos.x >= left && pos.x <= right && pos.y <= up && pos.y >= down)
+					{
+						play.Value.isKnocked = true;
+						if(isLeft)
+						{
+							play.Value.m_icon.spriteName = "DarkSprite_skill";
+						}
+						else
+						{
+							play.Value.m_icon.spriteName = "LightSprite_skill";
+						}
+					}
+				} */
+			}
+		}
+	}
+	
+	public void Pulling()
+	{
+		foreach(var play in m_playDic)
+		{
+			if(play.Value.isPulling)
+			{
+				play.Value.pullingTime -= Time.deltaTime;
+				if(play.Value.pullingTime <= 0)
+				{
+					play.Value.pullingTime = 0;
+					play.Value.isPulling = false;
+					TileIndex index = GetTileIndex(play.Value.transform.localPosition, play.Value.isLeft);
+					if(play.Value.isLeft)
+					{
+						Debug.Log(index.m_x);
+						Debug.Log(index.m_y);
+						play.Value.m_icon.spriteName = "LightSprite1";
+						mp.leftTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.leftTiles[mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].isRooted = false;
+						mp.m_MAPLeft.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
+					}
+					else
+					{
+						play.Value.m_icon.spriteName = "DarkSprite1";
+						mp.rightTiles[index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.rightTiles[mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.m_index].GetComponent<TileInfo>().tileFlower.gameObject.SetActive(false);
+						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].isRooted = false;
+						mp.m_MAPRight.m_tiles[index.m_x, index.m_y].m_opponentTile.isPlanted = false;
+					}
+				}
+			}
+			else
+			{
+				play.Value.pullingTime = 0;
 			}
 		}
 	}
